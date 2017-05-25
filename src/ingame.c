@@ -14,11 +14,11 @@ void ingame_init() {
 	int i;
 	const char *playerid_str;
 	/* Leak *all* the memory */
-//	s->active_level = d_map_load(util_binrel_path("res/map.ldmz"));
+	s->active_level = d_map_load(util_binrel_path("res/goesta.ldmz"));
 	s->camera.follow = -1;
 	s->camera.x = s->camera.y = 0;
 
-//	movableInit();
+	movableInit();
 //	bulletInit();
 //	movableLoad();
 //	healthbar_init();
@@ -54,7 +54,7 @@ void ingame_loop() {
 		d_render_offset(0, 0);
 		d_render_tint(255, 255, 255, 255);
 //		d_render_tile_blit(s->active_level->layer[i].ts, 0, 0, 1);
-//		d_tilemap_draw(s->active_level->layer[i].tilemap);
+		d_tilemap_draw(s->active_level->layer[i].tilemap);
 //		d_render_offset(s->camera.x, s->camera.y);
 //		movableLoopRender(i);
 	}
