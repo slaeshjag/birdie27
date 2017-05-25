@@ -28,6 +28,7 @@ struct ClientList {
 	int id;
 	int sock;
 	char name[NAME_LEN_MAX];
+	int team;
 	
 	ClientList *next;
 };
@@ -52,6 +53,7 @@ void server_handle_client(ClientList *cli) {
 	switch(pack.type) {
 		case PACKET_TYPE_JOIN:
 			strcpy(cli->name, pack.join.name);
+			cli->team = pack.join.team;
 			
 			response.type = PACKET_TYPE_JOIN;
 			response.size = sizeof(PacketJoin);
@@ -59,12 +61,14 @@ void server_handle_client(ClientList *cli) {
 			for(tmp = client; tmp; tmp = tmp->next) {
 				memset(response.join.name, 0, NAME_LEN_MAX);
 				strcpy(response.join.name, tmp->name);
+				response.join.team = tmp->team;
 				response.join.id = tmp->id;
 				protocol_send_packet(cli->sock, &response);
 				
 				if(tmp->sock != cli->sock) {
 					response.join.id = cli->id;
 					strcpy(response.join.name, cli->name);
+					response.join.team = cli->team;
 					protocol_send_packet(tmp->sock, &response);
 				}
 			}

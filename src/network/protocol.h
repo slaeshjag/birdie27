@@ -10,6 +10,7 @@ typedef enum PacketType PacketType;
 enum PacketType {
 	PACKET_TYPE_LOBBY,
 	PACKET_TYPE_JOIN,
+	PACKET_TYPE_TEAM,
 	PACKET_TYPE_START,
 	PACKET_TYPE_MOVE_OBJECT,
 	PACKET_TYPE_SOUND,
@@ -32,6 +33,7 @@ struct PacketJoin {
 	
 	uint32_t id;
 	char name[NAME_LEN_MAX];
+	int team;
 };
 
 typedef struct PacketStart PacketStart;

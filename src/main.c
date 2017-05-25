@@ -23,6 +23,11 @@ struct GameStateStruct *s;
 char player_name[NAME_LEN_MAX];
 int server_sock;
 
+char *team_name[] = {
+	"Red",
+	"Blue",
+};
+
 void (*state_render[GAME_STATES])()={
 	[GAME_STATE_MENU] = menu_render,
 	[GAME_STATE_GAME] = ingame_loop,
@@ -67,6 +72,7 @@ int join_game(unsigned long sip) {
 	join.id = 0;
 	memcpy(join.name, player_name, NAME_LEN_MAX);
 	join.name[NAME_LEN_MAX - 1] = 0;
+	join.team = 0;
 
 	protocol_send_packet(server_sock, (void *) &join);
 	return 0;
