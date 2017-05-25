@@ -46,7 +46,7 @@ void server_handle_client(ClientList *cli) {
 	
 	if(!network_poll_tcp(cli->sock))
 		return;
-	
+
 	protocol_recv_packet(cli->sock, &pack);
 	
 	switch(pack.type) {
@@ -132,7 +132,6 @@ int server_thread(void *arg) {
 				
 			case SERVER_STATE_GAME:
 				d_util_semaphore_wait(sem);
-				/*
 				
 				move.type = PACKET_TYPE_MOVE_OBJECT;
 				move.size = 4 + s->movable.movables*10;
@@ -159,7 +158,6 @@ int server_thread(void *arg) {
 				
 				for(tmp = client; tmp; tmp = tmp->next)
 					server_handle_client(tmp);
-				*/
 				break;
 		}
 	}

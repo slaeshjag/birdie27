@@ -294,7 +294,7 @@ void movableLoop() {
 	}
 
 	if (players_active <= 1 && master) {
-		fprintf(stderr, "win condition\n");
+		//fprintf(stderr, "win condition\n");
 		//server_announce_winner(winning_player);
 	}
 
