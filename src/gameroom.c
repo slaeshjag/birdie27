@@ -43,7 +43,6 @@ void gameroom_init() {
 
 
 void gameroom_network_handler() {
-	#if 0
 	Packet pack;
 	
 	if(!network_poll_tcp(server_sock))
@@ -61,5 +60,4 @@ void gameroom_network_handler() {
 			game_state(GAME_STATE_GAME);
 			break;
 	}
-	#endif
 }

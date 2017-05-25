@@ -10,6 +10,7 @@
 #include <muil/muil.h>
 #include "network/network.h"
 #include "network/protocol.h"
+#include "server/server.h"
 #include "lobby.h"
 #include "gameroom.h"
 #include "menu.h"
@@ -41,7 +42,7 @@ void restart_to_menu(const char *name) {
 	// This is ugly :D
 	char buf[4096];
 	
-//	server_shutdown();
+	server_shutdown();
 	network_close_tcp(server_sock);
 	
 	sprintf(buf, "%s", d_fs_exec_path());
@@ -53,7 +54,6 @@ void restart_to_menu(const char *name) {
 }
 
 int join_game(unsigned long sip) {
-	#if 0
 	PacketJoin join;
 	
 	if((server_sock = network_connect_tcp(sip, PORT + 1)) < 0) {
@@ -69,9 +69,6 @@ int join_game(unsigned long sip) {
 
 	protocol_send_packet(server_sock, (void *) &join);
 	return 0;
-	#endif
-	
-	return -1;
 }
 
 void game_state(GameState state) {
@@ -113,18 +110,18 @@ void game_state(GameState state) {
 			break;
 		case GAME_STATE_LOBBY:
 			//gameroom.button.start->enabled = false;
-//			s->is_host = false;
+			s->is_host = false;
 			//muil_listbox_clear(lobby.list);
 			break;
 		case GAME_STATE_ENTER_IP:
 			muil_selected_widget = enter_ip.entry;
 			break;
 		case GAME_STATE_HOST:
-//			s->is_host = true;
-//			server_start();
-//			gameroom.button.start->enabled = true;
+			s->is_host = true;
+			server_start();
+			gameroom.button.start->enabled = true;
 			
-//			join_game(network_local_ip());
+			join_game(network_local_ip());
 			
 			state = GAME_STATE_GAMEROOM;
 		case GAME_STATE_GAMEROOM:
