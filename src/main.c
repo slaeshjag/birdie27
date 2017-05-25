@@ -11,6 +11,7 @@
 #include "network/network.h"
 #include "network/protocol.h"
 #include "server/server.h"
+#include "ingame.h"
 #include "lobby.h"
 #include "gameroom.h"
 #include "menu.h"
@@ -24,14 +25,14 @@ int server_sock;
 
 void (*state_render[GAME_STATES])()={
 	[GAME_STATE_MENU] = menu_render,
-//	[GAME_STATE_GAME] = ingame_loop,
+	[GAME_STATE_GAME] = ingame_loop,
 //	[GAME_STATE_CHARACTERS] = character_room_render,
 	[GAME_STATE_SELECT_NAME] = NULL,
 //	[GAME_STATE_GAME_OVER] = game_over_render,
 };
 
 void (*state_network_handler[GAME_STATES])()={
-//	[GAME_STATE_GAME] = ingame_network_handler,
+	[GAME_STATE_GAME] = ingame_network_handler,
 	[GAME_STATE_GAMEROOM] = gameroom_network_handler,
 	[GAME_STATE_LOBBY] = lobby_network_handler,
 };
@@ -96,7 +97,7 @@ void game_state(GameState state) {
 	//Game state constructors
 	switch(state) {
 		case GAME_STATE_GAME:
-			//ingame_init();
+			ingame_init();
 			//init game shit
 			//pthread_create(&game.thread, NULL, object_thread, NULL);
 			#ifndef __DEBUG__

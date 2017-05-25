@@ -50,7 +50,7 @@ struct GameStateStruct {
 	int	player_id;
 	bool is_host;
 //	MOVABLE			movable;
-//	DARNIT_MAP		*active_level;
+	DARNIT_MAP		*active_level;
 //	BULLET			bullet;
 //	struct HealthbarStruct	healthbar;
 //	struct PlayerState	player[PLAYER_CAP];

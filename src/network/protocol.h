@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 #include "../main.h"
-//#include "../ingame.h"
+#include "../ingame.h"
 
 
 typedef enum PacketType PacketType;
@@ -47,7 +47,7 @@ struct PacketKeypress {
 	uint16_t type;
 	uint16_t size;
 
-	//struct InGameKeyStateEntry keypress, keyrelease;
+	InGameKeyStateEntry keypress, keyrelease;
 };
 
 typedef struct PacketParticleBurst PacketParticleBurst;
