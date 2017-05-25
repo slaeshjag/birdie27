@@ -4,6 +4,8 @@
 #include <stdbool.h>
 #include <darnit/darnit.h>
 
+#include "movable.h"
+#include "player.h"
 #define DISPLAY_WIDTH 800
 #define DISPLAY_HEIGHT 600
 //1338 för oss som är lite bättre
@@ -50,8 +52,8 @@ extern int server_sock;
 struct GameStateStruct {
 	int	player_id;
 	bool is_host;
-//	MOVABLE			movable;
-//	DARNIT_MAP		*active_level;
+	MOVABLE			movable;
+	DARNIT_MAP		*active_level;
 //	BULLET			bullet;
 //	struct HealthbarStruct	healthbar;
 //	struct PlayerState	player[PLAYER_CAP];
