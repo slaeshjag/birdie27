@@ -55,7 +55,7 @@ struct GameStateStruct {
 	DARNIT_MAP		*active_level;
 //	BULLET			bullet;
 //	struct HealthbarStruct	healthbar;
-//	struct PlayerState	player[PLAYER_CAP];
+	struct PlayerState	player[PLAYER_CAP];
 //	struct SoundeffectStruct sfx;
 	struct {
 				int x;

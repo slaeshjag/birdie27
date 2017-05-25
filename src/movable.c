@@ -3,6 +3,7 @@
 #include "ailib.h"
 #include "network/protocol.h"
 //#include "server/server.h"
+#include "util.h"
 #include <limits.h>
 #include <stdbool.h>
 
