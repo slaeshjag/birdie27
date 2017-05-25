@@ -6,19 +6,18 @@ include config.mk
 # Sub directories to build
 SRCDIRS		=	src
 PLUGINSDIR	=	plugins
-MODULESDIR      =       submodules
 
 SUBDIRS		=	$(SRCDIRS) $(MODULESDIR)
 
 #LIBS		=	$(addsuffix /out.a,$(SUBDIRS))
-MODULES         =       $(wildcard $(addsuffix /*.a,$(MODULESDIR)))
+MODULESLIBS	= $(addsuffix .a,$(MODULES))
 
 .PHONY: all clean
 .PHONY: $(SUBDIRS)
 
 all: $(SUBDIRS)
 	@echo " [ LD ] $(BINFILE)"
-	@$(CC) -o $(BINFILE) $(CFLAGS) -Wl,--whole-archive $(addsuffix /out.a,$(SRCDIRS)) -Wl,--no-whole-archive $(MODULES) $(LDFLAGS)
+	@$(CC) -o $(BINFILE) $(CFLAGS) -Wl,--whole-archive $(addsuffix /out.a,$(SRCDIRS)) -Wl,--no-whole-archive $(MODULESLIBS) $(LDFLAGS)
 	
 	@echo "Build complete."
 	@echo 

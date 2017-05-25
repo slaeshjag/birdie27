@@ -4,9 +4,19 @@ MAKEFLAGS	+=	--no-print-directory
 #Binaries
 BINFILE		=	birdie27
 
+# Paths
+MODULESDIR      = $(TOPDIR)/submodules
+MODULES		= $(patsubst %/,%,$(foreach dir,$(wildcard $(MODULESDIR)/*/Makefile),$(dir $(dir))))
+MODULESINCLUDE	= $(addsuffix /include,$(MODULES))
+
+INCLUDEDIRS	= $(TOPDIR)/include $(MODULESINCLUDE)
+
+# Compiler and linker flags
+INCLUDES	= $(addprefix -I,$(INCLUDEDIRS))
+
 #General flags
 LDFLAGS		+=	-ldarnit_s -lm -lmodplug -lbz2
-CFLAGS		+=	-Wall -std=c99 -g -O3 -DDEBUG -D_POSIX_C_SOURCE=200809L -D_XOPEN_SOURCE=600 -I$(TOPDIR)/include -pthread
+CFLAGS		+=	-Wall -std=c99 -g -O3 -DDEBUG -D_POSIX_C_SOURCE=200809L -D_XOPEN_SOURCE=600 $(INCLUDES) -pthread
 ASFLAGS		+=
 
 #Extra install targets
