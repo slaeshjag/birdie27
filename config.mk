@@ -19,11 +19,11 @@ CP		=	cp
 
 ifeq ($(TARGET),i586-mingw32msvc-)
 LDFLAGS	+=	-static -lws2_32 -lopengl32 -lwinmm -lgdi32 -lshlwapi -lstdc++ -mwindows res.res
-BINFILE	+=.exe
+BINFILE	:= $(BINFILE).exe
 endif
 
 i586-mingw32msvc-:
-	@$(TARGET)windres platform/windows/res.rc -O coff -o res.res
+	@$(TARGET)windres $(TOPDIR)/platform/windows/res.rc -O coff -o $(TOPDIR)/res.res
 
 ifeq ($(TARGET),)
 LDFLAGS	+= -lSDL -lasound -lGL
