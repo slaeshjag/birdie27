@@ -19,6 +19,8 @@ all: $(SUBDIRS)
 	@echo " [ LD ] $(BINFILE)"
 	@$(CC) -o $(BINFILE) $(CFLAGS) -Wl,--whole-archive $(addsuffix /out.a,$(SRCDIRS)) -Wl,--no-whole-archive $(MODULESLIBS) $(LDFLAGS)
 	
+	@darnit-tmxconv res_precursor/goesta.tmx res/goesta.ldmz
+	
 	@echo "Build complete."
 	@echo 
 
