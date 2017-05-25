@@ -16,7 +16,7 @@ INCLUDES	= $(addprefix -I,$(INCLUDEDIRS))
 
 #General flags
 LDFLAGS		+=	-ldarnit_s -lm -lmodplug -lbz2
-CFLAGS		+=	-Wall -std=c99 -g -O3 -DDEBUG -D_POSIX_C_SOURCE=200809L -D_XOPEN_SOURCE=600 $(INCLUDES) -pthread
+CFLAGS		+=	-Wall -std=c99 -g -O0 -DDEBUG -D_POSIX_C_SOURCE=200809L -D_XOPEN_SOURCE=600 $(INCLUDES) -pthread
 ASFLAGS		+=
 
 #Extra install targets

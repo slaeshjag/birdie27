@@ -7,6 +7,7 @@
 #include "network/protocol.h"
 #include "server/server.h"
 #include "main.h"
+#include "util.h"
 
 InGameKeyStateEntry ingame_keystate[PLAYER_CAP];
 
@@ -20,7 +21,7 @@ void ingame_init() {
 
 	movableInit();
 //	bulletInit();
-//	movableLoad();
+	movableLoad();
 //	healthbar_init();
 //	soundeffects_init();
 
@@ -43,20 +44,20 @@ void ingame_loop() {
 	
 	d_render_tint(255, 255, 255, 255);
 	
-//	movableLoop();
+	movableLoop();
 	
 	if(s->is_host)
 		server_kick();
 	
 //	camera_work();
-//	d_map_camera_move(s->active_level, s->camera.x, s->camera.y);
+	d_map_camera_move(s->active_level, 20, 0);
 	for (i = 0; i < s->active_level->layers; i++) {
 		d_render_offset(0, 0);
 		d_render_tint(255, 255, 255, 255);
 //		d_render_tile_blit(s->active_level->layer[i].ts, 0, 0, 1);
 		d_tilemap_draw(s->active_level->layer[i].tilemap);
 //		d_render_offset(s->camera.x, s->camera.y);
-//		movableLoopRender(i);
+		movableLoopRender(i);
 	}
 
 //	healthbar_draw();

@@ -72,9 +72,9 @@ void server_handle_client(ClientList *cli) {
 			break;
 		
 		case PACKET_TYPE_KEYPRESS:
-//			HANDLE_KEY(left);
-//			HANDLE_KEY(right);
-//			HANDLE_KEY(jump);
+			HANDLE_KEY(left);
+			HANDLE_KEY(right);
+			HANDLE_KEY(jump);
 //			HANDLE_KEY(grab);
 			break;
 	}
