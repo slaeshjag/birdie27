@@ -13,9 +13,7 @@ static void button_callback(MuilWidget *widget, unsigned int type, MuilEvent *e)
 	if(widget == gameroom.button.back) {
 		restart_to_menu(player_name);
 	} else if(widget == gameroom.button.start) {
-		#if 0
 		server_start_game();
-		#endif
 	}
 }
 
