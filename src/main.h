@@ -8,13 +8,12 @@
 #include "player.h"
 #define DISPLAY_WIDTH 800
 #define DISPLAY_HEIGHT 600
-//1338 för oss som är lite bättre
-#define PORT 1338
+#define PORT 1339
 
 #define GAME_TITLE "birdie27"
 
 #define NAME_LEN_MAX 64
-#define	PLAYER_CAP 4
+#define	PLAYER_CAP 1024
 
 #define PANE_R 0xCD
 #define PANE_G 0xCD
