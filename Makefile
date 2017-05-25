@@ -8,7 +8,7 @@ SRCDIRS		=	src
 PLUGINSDIR	=	plugins
 MODULESDIR      =       submodules
 
-SUBDIRS		=	$(SRCDIRS)
+SUBDIRS		=	$(SRCDIRS) $(MODULESDIR)
 
 #LIBS		=	$(addsuffix /out.a,$(SUBDIRS))
 MODULES         =       $(wildcard $(addsuffix /*.a,$(MODULESDIR)))
