@@ -80,7 +80,6 @@ void ai_player(void *dummy, void *entry, MOVABLE_MSG msg) {
 			//if (_player_fix_hitbox(self))
 			//	break;
 
-			#if 0
 			if (ingame_keystate[player_id].left) {
 				self->x_velocity = -400;
 				s->player[player_id].last_walk_direction = 0;
@@ -97,7 +96,6 @@ void ai_player(void *dummy, void *entry, MOVABLE_MSG msg) {
 				if (!self->y_velocity)
 					self->y_velocity = -600;
 			}
-			#endif
 
 
 			noinput:
