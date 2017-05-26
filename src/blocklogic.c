@@ -57,10 +57,6 @@ int blocklogic_area_clear(int area, int x, int y, int w, int h) {
 
 
 int blocklogic_find_place_site(int area, int x, int y, int direction, int block_w, int block_h, int *pos_x, int *pos_y) {
-	if (direction == 1) {
-		x += 1;
-	} else
-		x -= block_w;
 	if (x + block_w > BLOCKLOGIC_AREA_WIDTH)
 		return 0;
 	if (x < 0)

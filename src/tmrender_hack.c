@@ -82,7 +82,7 @@ void tm_renderhack_context_copy(struct TMRenderHackContext *tmrhc, uint8_t *tile
 	}
 
 	tm->cache_used = renderTilemapRecalcHack(tm->cache, tm->ts, 0, tm->cam_yi, tm->w, tm->h, tm->map_w, tm->map_h, tm->map, tm->inv_div, tm->mask, rotate, corner);
-	tmrhc->offset = corner*24 -8 + area*(BLOCKLOGIC_AREA_WIDTH)*24;
+	tmrhc->offset = corner*24 -8 + area*(BLOCKLOGIC_AREA_WIDTH+2)*24;
 	//tmrhc->offset = corner*24-BLOCKLOGIC_AREA_WIDTH*24-24+(area*24*BLOCKLOGIC_AREA_WIDTH);
 }
 
