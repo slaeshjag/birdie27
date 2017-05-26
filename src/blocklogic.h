@@ -1,5 +1,5 @@
-#ifndef BLOCKLOGIC_H__
-#define	BLOCKLOGIC_H__
+#ifndef BLOCKLOGIC_H_
+#define	BLOCKLOGIC_H_
 
 #include <stdint.h>
 
@@ -16,6 +16,7 @@ struct BlockLogic {
 	int			blocks;
 };
 
+void blocklogic_separate_all_towers();
 
 
 #endif

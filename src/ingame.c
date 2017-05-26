@@ -1,5 +1,6 @@
 #include "main.h"
 #include "ingame.h"
+#include "blocklogic.h"
 #include "network/protocol.h"
 #include <stdbool.h>
 #include <string.h>
@@ -153,6 +154,8 @@ void ingame_network_handler() {
 			
 			case PACKET_TYPE_BLOCK_PLACE:
 				s->block[pack.block_place.team].block[pack.block_place.y*BLOCKLOGIC_AREA_WIDTH + pack.block_place.x] = pack.block_place.block;
+				
+				blocklogic_separate_all_towers();
 				break;
 			
 			case PACKET_TYPE_SOUND:
