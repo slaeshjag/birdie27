@@ -153,7 +153,7 @@ void ingame_network_handler() {
 			break;
 		
 		case PACKET_TYPE_BLOCK_PLACE:
-			
+			s->block[pack.block_place.team].block[pack.block_place.y*BLOCKLOGIC_AREA_WIDTH + pack.block_place.x] = pack.block_place.block;
 			break;
 		
 		case PACKET_TYPE_SOUND:
