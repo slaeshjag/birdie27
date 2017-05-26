@@ -3,6 +3,7 @@
 
 #include <darnit/darnit.h>
 
+#define	COLLISION_NONE	0x00000
 #define	COLLISION_BOTTOM	0x10000
 #define	COLLISION_LEFT		0x20000
 #define	COLLISION_TOP		0x40000
