@@ -91,6 +91,9 @@ struct PacketSound {
 
 typedef struct PacketBlockPlace PacketBlockPlace;
 struct PacketBlockPlace {
+	uint16_t type;
+	uint16_t size;
+	
 	uint8_t team;
 	uint8_t	x;
 	uint8_t	y;
