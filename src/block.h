@@ -14,6 +14,8 @@ enum BlockType {
 	BLOCK_TYPE_BULLETPROOF,
 	BLOCK_TYPE_TURRET,
 	BLOCK_TYPE_CANNON,
+	
+	BLOCK_TYPE_BLOCKS,
 };
 
 typedef struct Block Block;
@@ -24,5 +26,7 @@ struct Block {
 };
 
 extern Block block_property[];
+
+int block_spawn();
 
 #endif

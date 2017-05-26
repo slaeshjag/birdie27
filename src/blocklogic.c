@@ -15,8 +15,8 @@ static int _mark_and_copy(uint8_t *data_in, uint8_t *data_out, int w, int h, int
 	
 	mass = block_property[data_in[y*w + x]].mass;
 	
+	data_out[y*w + x] = data_in[y*w + x];
 	data_in[y*w + x] = to;
-	data_out[y*w + x] = from;
 	
 	_mark_and_copy(data_in, data_out, w, h, x + 1, y, from, to, center_of_gravity_x, center_of_gravity_y, mass_total);
 	_mark_and_copy(data_in, data_out, w, h, x - 1, y, from, to, center_of_gravity_x, center_of_gravity_y, mass_total);
