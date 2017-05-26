@@ -120,6 +120,7 @@ union Packet {
 	PacketSound sound;
 	PacketKeypress keypress;
 	PacketExit exit;
+	PacketBlockPlace block_place;
 };
 
 int protocol_send_packet(int sock, Packet *pack);

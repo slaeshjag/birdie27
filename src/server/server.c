@@ -79,8 +79,19 @@ void server_handle_client(ClientList *cli) {
 			HANDLE_KEY(left);
 			HANDLE_KEY(right);
 			HANDLE_KEY(jump);
-//			HANDLE_KEY(grab);
+			HANDLE_KEY(action);
 			break;
+		
+		case PACKET_TYPE_BLOCK_PLACE:
+			response.type = PACKET_TYPE_BLOCK_PLACE;
+			response.size = sizeof(PacketBlockPlace);
+			response.block_place.x = pack.block_place.x;
+			response.block_place.y = pack.block_place.y;
+			response.block_place.team = pack.block_place.team;
+			
+			for(tmp = client; tmp; tmp = tmp->next) {
+				protocol_send_packet(tmp->sock, &response);
+			}
 	}
 }
 
@@ -156,9 +167,10 @@ int server_thread(void *arg) {
 					p += 2;
 				}
 				
-				for(tmp = client; tmp; tmp = tmp->next)
+				for(tmp = client; tmp; tmp = tmp->next) {
 					if(tmp->id != s->player_id)
 						protocol_send_packet(tmp->sock, &move);
+				}
 				
 				for(tmp = client; tmp; tmp = tmp->next)
 					server_handle_client(tmp);
