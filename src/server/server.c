@@ -105,7 +105,17 @@ void server_handle_client(ClientList *cli) {
 					protocol_send_packet(tmp->sock, &response);
 				}
 				break;
-			
+			case PACKET_TYPE_TIMER:
+				response.type = PACKET_TYPE_TIMER;
+				response.size = sizeof(PacketTimer);
+				response.timer.advantage = pack.timer.advantage;;
+				response.timer.team1 = pack.timer.team1;
+				response.timer.team2 = pack.timer.team2;
+				
+				for(tmp = client; tmp; tmp = tmp->next) {
+					protocol_send_packet(tmp->sock, &response);
+				}
+				break;
 			default:
 				fprintf(stderr, "wat %i\n", pack.type);
 				break;

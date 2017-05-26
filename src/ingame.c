@@ -12,6 +12,8 @@
 #include "util.h"
 
 InGameKeyStateEntry ingame_keystate[PLAYER_CAP];
+int ingame_timer_package_send(uint8_t advantage, uint32_t team1, uint32_t team2);
+void ingame_timer_blit(int time_left, int mode, int pos);
 
 void ingame_init() {
 	int i;
@@ -26,6 +28,7 @@ void ingame_init() {
 	movableInit();
 //	bulletInit();
 	movableLoad();
+	s->_7seg = d_render_tilesheet_load("res/7seg.png", 24, 32, DARNIT_PFORMAT_RGB5A1);
 //	healthbar_init();
 //	soundeffects_init();
 
@@ -42,7 +45,7 @@ void ingame_init() {
 
 
 void ingame_loop() {
-	int i;
+	int i, team1t, team2t;
 	
 	d_render_clearcolor_set(0x88, 0xf2, 0xff);
 	
@@ -52,7 +55,20 @@ void ingame_loop() {
 	
 	if(s->is_host) {
 		server_kick();
-
+		team1t = blocklogic_tower_size(0);
+		team2t = blocklogic_tower_size(1);
+		s->timer.advantage = 0;
+		if (team1t >= 4 || team2t >= 4) {
+			if (team1t > team2t)
+				s->timer.advantage = 1;
+			else if (team2t > team1t)
+				s->timer.advantage = 2;
+		}
+		if (s->timer.advantage == 1)
+			s->timer.team1 += d_last_frame_time();
+		else if (s->timer.advantage == 2)
+			s->timer.team2 += d_last_frame_time();
+		ingame_timer_package_send(s->timer.advantage, s->timer.team1, s->timer.team2);
 	}
 	
 //	camera_work();
@@ -79,6 +95,9 @@ void ingame_loop() {
 		}
 	}
 	
+	d_render_offset(0, 0);
+	ingame_timer_blit(TIMER_COUNTDOWN_WIN - s->timer.team1/1000, s->timer.advantage == 1 ? 1 : 0, 0);
+	ingame_timer_blit(TIMER_COUNTDOWN_WIN - s->timer.team2/1000, s->timer.advantage == 2 ? 3 : 2, 704);
 //	healthbar_draw();
 	ingame_client_keyboard();
 }
@@ -190,6 +209,12 @@ void ingame_network_handler() {
 				d_particle_pulse(s->player[pack.blood.player].blood);
 				printf("bloooood @ (%i %i)\n", pack.blood.x, pack.blood.y);
 				break;
+
+			case PACKET_TYPE_TIMER:
+				s->timer.advantage = pack.timer.advantage;
+				s->timer.team1 = pack.timer.team1;
+				s->timer.team2 = pack.timer.team2;
+				break;
 			
 			case PACKET_TYPE_SOUND:
 	//			soundeffects_play(pack.sound.sound);
@@ -200,4 +225,30 @@ void ingame_network_handler() {
 				break;
 		}
 	}
+}
+
+
+int ingame_timer_package_send(uint8_t advantage, uint32_t team1, uint32_t team2) {
+	Packet pack;
+	
+	pack.type = PACKET_TYPE_TIMER;
+	pack.size = sizeof(PacketTimer);
+	pack.timer.advantage = advantage;
+	pack.timer.team1 = team1;
+	pack.timer.team2 = team2;
+
+	return protocol_send_packet(server_sock, &pack);
+}
+
+
+void ingame_timer_blit(int time_left, int mode, int pos) {
+	int minute, deka, second;
+
+	minute = time_left / 60;
+	deka = (time_left % 60) / 10;
+	second = time_left % 10;
+	d_render_tile_blit(s->_7seg, minute + 11*mode, pos, 568);
+	d_render_tile_blit(s->_7seg, 10 + 11*mode, pos+24, 568);
+	d_render_tile_blit(s->_7seg, deka + 11*mode, pos+48, 568);
+	d_render_tile_blit(s->_7seg, second + 11*mode, pos+72, 568);
 }

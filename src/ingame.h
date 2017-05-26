@@ -4,6 +4,8 @@
 #include "main.h"
 #include <stdbool.h>
 
+#define	TIMER_COUNTDOWN_WIN	90
+
 void ingame_init();
 void ingame_loop();
 

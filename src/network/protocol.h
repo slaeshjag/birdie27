@@ -17,6 +17,7 @@ enum PacketType {
 	PACKET_TYPE_KEYPRESS,
 	PACKET_TYPE_BLOCK_PLACE,
 	PACKET_TYPE_BLOOD,
+	PACKET_TYPE_TIMER,
 	PACKET_TYPE_EXIT,
 };
 
@@ -86,6 +87,17 @@ struct PacketBlockPlace {
 };
 
 
+typedef struct PacketTimer PacketTimer;
+struct PacketTimer {
+	uint16_t type;
+	uint16_t size;
+
+	uint8_t advantage;
+	uint32_t team1;
+	uint32_t team2;
+};
+
+
 typedef struct PacketExit PacketExit;
 struct PacketExit {
 	uint16_t type;
@@ -111,6 +123,7 @@ union Packet {
 	PacketExit exit;
 	PacketBlockPlace block_place;
 	PacketBlood blood;
+	PacketTimer timer;
 };
 
 int protocol_send_packet(int sock, Packet *pack);

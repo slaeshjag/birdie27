@@ -53,6 +53,7 @@ extern char *team_name[];
 struct PlayerTimer {
 	uint32_t		team1;
 	uint32_t		team2;
+	int			advantage;
 };
 
 
@@ -61,6 +62,7 @@ struct GameStateStruct {
 	bool is_host;
 	MOVABLE			movable;
 	DARNIT_MAP		*active_level;
+	DARNIT_TILESHEET	*_7seg;
 //	BULLET			bullet;
 //	struct HealthbarStruct	healthbar;
 	struct PlayerState	player[PLAYER_CAP];
