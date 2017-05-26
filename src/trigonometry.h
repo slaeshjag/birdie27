@@ -34,4 +34,6 @@ struct Vector2 {
 float trig_delta_to_angle_f(float dx, float dy);
 double trig_delta_to_angle_d(double dx, double dy);
 
+Vector2 transform_rotated_system(int center_x, int center_y, float degrees, int x_in, int y_in);
+
 #endif

@@ -82,7 +82,7 @@ void tm_renderhack_context_copy(struct TMRenderHackContext *tmrhc, uint8_t *tile
 	}
 
 	tm->cache_used = renderTilemapRecalcHack(tm->cache, tm->ts, 0, tm->cam_yi, tm->w, tm->h, tm->map_w, tm->map_h, tm->map, tm->inv_div, tm->mask, rotate, corner);
-	tmrhc->offset = corner*24 -8 + area*(BLOCKLOGIC_AREA_WIDTH+2)*24;
+	tmrhc->offset = corner*24 -8 + area*(BLOCKLOGIC_AREA_WIDTH)*24;
 	//tmrhc->offset = corner*24-BLOCKLOGIC_AREA_WIDTH*24-24+(area*24*BLOCKLOGIC_AREA_WIDTH);
 }
 
@@ -94,7 +94,7 @@ void tm_renderhack_context_render(struct TMRenderHackContext *tmrhc, float angle
 int renderTilemapRecalcHack(TILE_CACHE *cache, TILESHEET *ts, int x, int y, int w, int h, int map_w, int map_h, unsigned int *tilemap, int inv_div, unsigned int mask, float rotate, int corner) {
 	float x_start, y_start;
 	float *x_adv_buf, *y_adv_buf;
-	int i, j, k, l, t, x_cur, y_cur;
+	int i, j, k, t, x_cur, y_cur;
 
 	x_adv_buf = malloc(sizeof(float) * (w + 1));
 	y_adv_buf = malloc(sizeof(float) * (h + 1));
@@ -144,9 +144,6 @@ int renderTilemapRecalcHack(TILE_CACHE *cache, TILESHEET *ts, int x, int y, int 
 			cache[k].vertex[4].tex.v = ts->tile[t].v;
 			cache[k].vertex[5].tex.u = ts->tile[t].r;
 			cache[k].vertex[5].tex.v = ts->tile[t].s;
-			for (l = 0; l < 5; l++) {
-
-			}
 			k++;
 		}
 	}

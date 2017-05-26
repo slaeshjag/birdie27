@@ -1,6 +1,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "network/protocol.h"
+#include "tmrender_hack.h"
 #include "main.h"
 #include "blocklogic.h"
 #include "block.h"
@@ -183,6 +184,6 @@ void blocklogic_copy_for_render() {
 	int i;
 
 	for (i = 0; i < 16; i++) {
-		tm_renderhack_context_copy(s->tmrender[i], s->tower[i], 0, i>=8?1:0);
+		tm_renderhack_context_copy(s->tmrender[i], s->tower[i], 0, i>=8?1:0, 0);
 	}
 }

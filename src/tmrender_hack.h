@@ -2,7 +2,7 @@
 #define	RENDER_TILEMAP_HACK_H_
 
 #include <darnit/darnit.h>
-
+#include <stdint.h>
 
 struct TMRenderHackContext {
 	DARNIT_TILEMAP				*tm;
