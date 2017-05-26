@@ -4,9 +4,6 @@
 #include "main.h"
 #include "blocklogic.h"
 
-uint8_t tower[16][BLOCKLOGIC_AREA_HEIGHT*BLOCKLOGIC_AREA_WIDTH];
-int towers[2];
-
 static int _mark_and_copy(uint8_t *data_in, uint8_t *data_out, int w, int h, int x, int y, uint8_t from, uint8_t to) {
 	if(x < 0 || x >= w || y < 0 || y >= h)
 		return -1;
@@ -123,10 +120,10 @@ static int _separate_towers(int area, uint8_t * separated_field) {
 }
 
 void blocklogic_separate_all_towers() {
-	memset(tower, 0, 16*BLOCKLOGIC_AREA_HEIGHT*BLOCKLOGIC_AREA_WIDTH);
+	memset(s->tower, 0, 16*BLOCKLOGIC_AREA_HEIGHT*BLOCKLOGIC_AREA_WIDTH);
 	
-	towers[0] = _separate_towers(0, tower[0]);
-	towers[1] = _separate_towers(1, tower[8]);
+	s->towers[0] = _separate_towers(0, s->tower[0]);
+	s->towers[1] = _separate_towers(1, s->tower[8]);
 }
 
 void spawn_projectile(int x, int y, double direction, int team) {

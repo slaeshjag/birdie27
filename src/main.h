@@ -60,6 +60,10 @@ struct GameStateStruct {
 	struct BlockLogicBlock	block[2]; // One per team for now
 
 	struct TMRenderHackContext *tmrender[16];
+	
+	uint8_t tower[16][BLOCKLOGIC_AREA_HEIGHT*BLOCKLOGIC_AREA_WIDTH];
+	int towers[2];
+	
 //	struct SoundeffectStruct sfx;
 	struct {
 				int x;
