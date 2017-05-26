@@ -94,6 +94,7 @@ struct PacketBlockPlace {
 	uint8_t team;
 	uint8_t	x;
 	uint8_t	y;
+	uint8_t block;
 };
 
 
