@@ -83,6 +83,7 @@ void ingame_client_keyboard() {
 	newstate.right = d_keys_get().right;
 	newstate.jump = d_keys_get().up;
 	newstate.action = d_keys_get().a;
+	newstate.suicide = d_keys_get().x;
 	
 	if(d_keys_get().select)
 		restart_to_menu(player_name);
@@ -115,7 +116,14 @@ void ingame_client_keyboard() {
 		else
 			releaseevent.action = true, pressevent.action = false;
 	}
-
+	
+	if (newstate.suicide ^ oldstate.suicide) {
+		if (newstate.suicide)
+			pressevent.suicide = true, releaseevent.suicide = false;
+		else
+			releaseevent.suicide = true, pressevent.suicide = false;
+	}
+	
 	PacketKeypress kp;
 
 	kp.size = sizeof(kp);
