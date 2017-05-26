@@ -1,15 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="36" height="28" tilewidth="24" tileheight="24">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="36" height="28" tilewidth="24" tileheight="24" nextobjectid="65">
  <properties>
-  <property name="tileset" value="res/blocktil.png"/>
+  <property name="tileset" value="res/blocks.png"/>
  </properties>
- <tileset firstgid="1" name="blocktil" tilewidth="24" tileheight="24">
-  <image source="../res/blocktil.png" width="512" height="256"/>
+ <tileset firstgid="1" name="blocks" tilewidth="24" tileheight="24" tilecount="441">
+  <image source="../res/blocks.png" width="512" height="512"/>
  </tileset>
- <tileset firstgid="211" name="zz_collision24" tilewidth="24" tileheight="24">
+ <tileset firstgid="442" name="zz_collision24" tilewidth="24" tileheight="24" tilecount="16">
   <image source="zz_collision24.png" width="384" height="24"/>
  </tileset>
- <layer name="Tile Layer 1" width="36" height="28">
+ <tileset firstgid="458" name="terrain" tilewidth="24" tileheight="24" tilecount="100">
+  <image source="../res/terrain.png" width="256" height="256"/>
+ </tileset>
+ <layer name="Structures" width="36" height="28">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,65,65,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,22,22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,22,22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,22,22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,22,22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer name="Terrain" width="36" height="28">
+  <properties>
+   <property name="tileset" value="res/terrain.png"/>
+  </properties>
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -29,13 +67,13 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
-2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
-2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+492,498,498,498,498,498,498,498,498,498,498,498,498,498,498,498,498,498,498,498,498,498,498,498,498,498,498,498,498,498,498,498,498,498,498,491,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
@@ -43,479 +81,479 @@
  </layer>
  <layer name="collision" width="36" height="28">
   <data encoding="csv">
-226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,
-226,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,226,
-226,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,226,
-226,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,226,
-226,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,226,
-226,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,226,
-226,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,226,
-226,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,226,
-226,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,226,
-226,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,226,
-226,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,226,
-226,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,226,
-226,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,226,
-226,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,226,
-226,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,226,
-226,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,226,
-226,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,226,
-226,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,226,
-226,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,226,226,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,226,
-226,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,226,226,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,226,
-226,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,226,226,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,226,
-226,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,226,226,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,226,
-226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,
-226,226,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,226,226,
-226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,
+457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,
+457,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,457,
+457,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,457,
+457,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,457,
+457,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,457,
+457,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,457,
+457,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,457,
+457,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,457,
+457,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,457,
+457,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,457,
+457,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,457,
+457,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,457,
+457,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,457,
+457,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,457,
+457,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,457,
+457,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,457,
+457,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,457,
+457,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,457,
+457,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,457,457,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,457,
+457,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,457,457,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,457,
+457,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,457,457,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,457,
+457,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,457,457,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,457,
+457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,
+457,457,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,457,457,
+457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,457,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup name="Object Layer 1" width="36" height="28">
-  <object name="player0" x="24" y="504" width="24" height="24">
+ <objectgroup name="Object Layer 1">
+  <object id="1" name="player0" x="24" y="504" width="24" height="24">
    <properties>
     <property name="ai" value="player"/>
     <property name="player_id" value="1"/>
     <property name="sprite" value="res/sprites/team1.spr"/>
    </properties>
   </object>
-  <object name="player0" x="48" y="504" width="24" height="24">
+  <object id="2" name="player0" x="48" y="504" width="24" height="24">
    <properties>
     <property name="ai" value="player"/>
     <property name="player_id" value="2"/>
     <property name="sprite" value="res/sprites/team1.spr"/>
    </properties>
   </object>
-  <object name="player0" x="72" y="504" width="24" height="24">
+  <object id="3" name="player0" x="72" y="504" width="24" height="24">
    <properties>
     <property name="ai" value="player"/>
     <property name="player_id" value="3"/>
     <property name="sprite" value="res/sprites/team1.spr"/>
    </properties>
   </object>
-  <object name="player0" x="96" y="504" width="24" height="24">
+  <object id="4" name="player0" x="96" y="504" width="24" height="24">
    <properties>
     <property name="ai" value="player"/>
     <property name="player_id" value="4"/>
     <property name="sprite" value="res/sprites/team1.spr"/>
    </properties>
   </object>
-  <object name="player0" x="336" y="504" width="24" height="24">
+  <object id="5" name="player0" x="336" y="504" width="24" height="24">
    <properties>
     <property name="ai" value="player"/>
     <property name="player_id" value="9"/>
     <property name="sprite" value="res/sprites/team1.spr"/>
    </properties>
   </object>
-  <object name="player0" x="360" y="504" width="24" height="24">
+  <object id="6" name="player0" x="360" y="504" width="24" height="24">
    <properties>
     <property name="ai" value="player"/>
     <property name="player_id" value="10"/>
     <property name="sprite" value="res/sprites/team1.spr"/>
    </properties>
   </object>
-  <object name="player0" x="384" y="504" width="24" height="24">
+  <object id="7" name="player0" x="384" y="504" width="24" height="24">
    <properties>
     <property name="ai" value="player"/>
     <property name="player_id" value="11"/>
     <property name="sprite" value="res/sprites/team1.spr"/>
    </properties>
   </object>
-  <object name="player0" x="408" y="504" width="24" height="24">
+  <object id="8" name="player0" x="408" y="504" width="24" height="24">
    <properties>
     <property name="ai" value="player"/>
     <property name="player_id" value="12"/>
     <property name="sprite" value="res/sprites/team1.spr"/>
    </properties>
   </object>
-  <object name="player0" x="24" y="480" width="24" height="24">
+  <object id="9" name="player0" x="24" y="480" width="24" height="24">
    <properties>
     <property name="ai" value="player"/>
     <property name="player_id" value="5"/>
     <property name="sprite" value="res/sprites/team1.spr"/>
    </properties>
   </object>
-  <object name="player0" x="48" y="480" width="24" height="24">
+  <object id="10" name="player0" x="48" y="480" width="24" height="24">
    <properties>
     <property name="ai" value="player"/>
     <property name="player_id" value="6"/>
     <property name="sprite" value="res/sprites/team1.spr"/>
    </properties>
   </object>
-  <object name="player0" x="72" y="480" width="24" height="24">
+  <object id="11" name="player0" x="72" y="480" width="24" height="24">
    <properties>
     <property name="ai" value="player"/>
     <property name="player_id" value="7"/>
     <property name="sprite" value="res/sprites/team1.spr"/>
    </properties>
   </object>
-  <object name="player0" x="96" y="480" width="24" height="24">
+  <object id="12" name="player0" x="96" y="480" width="24" height="24">
    <properties>
     <property name="ai" value="player"/>
     <property name="player_id" value="8"/>
     <property name="sprite" value="res/sprites/team1.spr"/>
    </properties>
   </object>
-  <object name="player0" x="336" y="480" width="24" height="24">
+  <object id="13" name="player0" x="336" y="480" width="24" height="24">
    <properties>
     <property name="ai" value="player"/>
     <property name="player_id" value="13"/>
     <property name="sprite" value="res/sprites/team1.spr"/>
    </properties>
   </object>
-  <object name="player0" x="360" y="480" width="24" height="24">
+  <object id="14" name="player0" x="360" y="480" width="24" height="24">
    <properties>
     <property name="ai" value="player"/>
     <property name="player_id" value="14"/>
     <property name="sprite" value="res/sprites/team1.spr"/>
    </properties>
   </object>
-  <object name="player0" x="384" y="480" width="24" height="24">
+  <object id="15" name="player0" x="384" y="480" width="24" height="24">
    <properties>
     <property name="ai" value="player"/>
     <property name="player_id" value="15"/>
     <property name="sprite" value="res/sprites/team1.spr"/>
    </properties>
   </object>
-  <object name="player0" x="408" y="480" width="24" height="24">
+  <object id="16" name="player0" x="408" y="480" width="24" height="24">
    <properties>
     <property name="ai" value="player"/>
     <property name="player_id" value="16"/>
     <property name="sprite" value="res/sprites/team1.spr"/>
    </properties>
   </object>
-  <object name="player0" x="480" y="504" width="24" height="24">
+  <object id="17" name="player0" x="480" y="504" width="24" height="24">
    <properties>
     <property name="ai" value="player"/>
     <property name="player_id" value="17"/>
     <property name="sprite" value="res/sprites/team2.spr"/>
    </properties>
   </object>
-  <object name="player0" x="504" y="504" width="24" height="24">
+  <object id="18" name="player0" x="504" y="504" width="24" height="24">
    <properties>
     <property name="ai" value="player"/>
     <property name="player_id" value="18"/>
     <property name="sprite" value="res/sprites/team2.spr"/>
    </properties>
   </object>
-  <object name="player0" x="528" y="504" width="24" height="24">
+  <object id="19" name="player0" x="528" y="504" width="24" height="24">
    <properties>
     <property name="ai" value="player"/>
     <property name="player_id" value="19"/>
     <property name="sprite" value="res/sprites/team2.spr"/>
    </properties>
   </object>
-  <object name="player0" x="552" y="504" width="24" height="24">
+  <object id="20" name="player0" x="552" y="504" width="24" height="24">
    <properties>
     <property name="ai" value="player"/>
     <property name="player_id" value="20"/>
     <property name="sprite" value="res/sprites/team2.spr"/>
    </properties>
   </object>
-  <object name="player0" x="480" y="480" width="24" height="24">
+  <object id="21" name="player0" x="480" y="480" width="24" height="24">
    <properties>
     <property name="ai" value="player"/>
     <property name="player_id" value="21"/>
     <property name="sprite" value="res/sprites/team2.spr"/>
    </properties>
   </object>
-  <object name="player0" x="504" y="480" width="24" height="24">
+  <object id="22" name="player0" x="504" y="480" width="24" height="24">
    <properties>
     <property name="ai" value="player"/>
     <property name="player_id" value="22"/>
     <property name="sprite" value="res/sprites/team2.spr"/>
    </properties>
   </object>
-  <object name="player0" x="528" y="480" width="24" height="24">
+  <object id="23" name="player0" x="528" y="480" width="24" height="24">
    <properties>
     <property name="ai" value="player"/>
     <property name="player_id" value="23"/>
     <property name="sprite" value="res/sprites/team2.spr"/>
    </properties>
   </object>
-  <object name="player0" x="552" y="480" width="24" height="24">
+  <object id="24" name="player0" x="552" y="480" width="24" height="24">
    <properties>
     <property name="ai" value="player"/>
     <property name="player_id" value="24"/>
     <property name="sprite" value="res/sprites/team2.spr"/>
    </properties>
   </object>
-  <object name="player0" x="744" y="504" width="24" height="24">
+  <object id="25" name="player0" x="744" y="504" width="24" height="24">
    <properties>
     <property name="ai" value="player"/>
     <property name="player_id" value="25"/>
     <property name="sprite" value="res/sprites/team2.spr"/>
    </properties>
   </object>
-  <object name="player0" x="768" y="504" width="24" height="24">
+  <object id="26" name="player0" x="768" y="504" width="24" height="24">
    <properties>
     <property name="ai" value="player"/>
     <property name="player_id" value="26"/>
     <property name="sprite" value="res/sprites/team2.spr"/>
    </properties>
   </object>
-  <object name="player0" x="792" y="504" width="24" height="24">
+  <object id="27" name="player0" x="792" y="504" width="24" height="24">
    <properties>
     <property name="ai" value="player"/>
     <property name="player_id" value="27"/>
     <property name="sprite" value="res/sprites/team2.spr"/>
    </properties>
   </object>
-  <object name="player0" x="816" y="504" width="24" height="24">
+  <object id="28" name="player0" x="816" y="504" width="24" height="24">
    <properties>
     <property name="ai" value="player"/>
     <property name="player_id" value="28"/>
     <property name="sprite" value="res/sprites/team2.spr"/>
    </properties>
   </object>
-  <object name="player0" x="744" y="480" width="24" height="24">
+  <object id="29" name="player0" x="744" y="480" width="24" height="24">
    <properties>
     <property name="ai" value="player"/>
     <property name="player_id" value="29"/>
     <property name="sprite" value="res/sprites/team2.spr"/>
    </properties>
   </object>
-  <object name="player0" x="768" y="480" width="24" height="24">
+  <object id="30" name="player0" x="768" y="480" width="24" height="24">
    <properties>
     <property name="ai" value="player"/>
     <property name="player_id" value="30"/>
     <property name="sprite" value="res/sprites/team2.spr"/>
    </properties>
   </object>
-  <object name="player0" x="792" y="480" width="24" height="24">
+  <object id="31" name="player0" x="792" y="480" width="24" height="24">
    <properties>
     <property name="ai" value="player"/>
     <property name="player_id" value="31"/>
     <property name="sprite" value="res/sprites/team2.spr"/>
    </properties>
   </object>
-  <object name="player0" x="816" y="480" width="24" height="24">
+  <object id="32" name="player0" x="816" y="480" width="24" height="24">
    <properties>
     <property name="ai" value="player"/>
     <property name="player_id" value="32"/>
     <property name="sprite" value="res/sprites/team2.spr"/>
    </properties>
   </object>
-  <object name="block" x="0" y="648" width="24" height="24">
+  <object id="33" name="block" x="0" y="648" width="24" height="24">
    <properties>
     <property name="ai" value="block"/>
     <property name="block_id" value="1"/>
     <property name="sprite" value="res/sprites/block.spr"/>
    </properties>
   </object>
-  <object name="block" x="24" y="648" width="24" height="24">
+  <object id="34" name="block" x="24" y="648" width="24" height="24">
    <properties>
     <property name="ai" value="block"/>
     <property name="block_id" value="2"/>
     <property name="sprite" value="res/sprites/block.spr"/>
    </properties>
   </object>
-  <object name="block" x="48" y="648" width="24" height="24">
+  <object id="35" name="block" x="48" y="648" width="24" height="24">
    <properties>
     <property name="ai" value="block"/>
     <property name="block_id" value="3"/>
     <property name="sprite" value="res/sprites/block.spr"/>
    </properties>
   </object>
-  <object name="block" x="72" y="648" width="24" height="24">
+  <object id="36" name="block" x="72" y="648" width="24" height="24">
    <properties>
     <property name="ai" value="block"/>
     <property name="block_id" value="4"/>
     <property name="sprite" value="res/sprites/block.spr"/>
    </properties>
   </object>
-  <object name="block" x="96" y="648" width="24" height="24">
+  <object id="37" name="block" x="96" y="648" width="24" height="24">
    <properties>
     <property name="ai" value="block"/>
     <property name="block_id" value="5"/>
     <property name="sprite" value="res/sprites/block.spr"/>
    </properties>
   </object>
-  <object name="block" x="144" y="648" width="24" height="24">
+  <object id="38" name="block" x="144" y="648" width="24" height="24">
    <properties>
     <property name="ai" value="block"/>
     <property name="block_id" value="7"/>
     <property name="sprite" value="res/sprites/block.spr"/>
    </properties>
   </object>
-  <object name="block" x="120" y="648" width="24" height="24">
+  <object id="39" name="block" x="120" y="648" width="24" height="24">
    <properties>
     <property name="ai" value="block"/>
     <property name="block_id" value="6"/>
     <property name="sprite" value="res/sprites/block.spr"/>
    </properties>
   </object>
-  <object name="block" x="168" y="648" width="24" height="24">
+  <object id="40" name="block" x="168" y="648" width="24" height="24">
    <properties>
     <property name="ai" value="block"/>
     <property name="block_id" value="8"/>
     <property name="sprite" value="res/sprites/block.spr"/>
    </properties>
   </object>
-  <object name="block" x="192" y="648" width="24" height="24">
+  <object id="41" name="block" x="192" y="648" width="24" height="24">
    <properties>
     <property name="ai" value="block"/>
     <property name="block_id" value="9"/>
     <property name="sprite" value="res/sprites/block.spr"/>
    </properties>
   </object>
-  <object name="block" x="216" y="648" width="24" height="24">
+  <object id="42" name="block" x="216" y="648" width="24" height="24">
    <properties>
     <property name="ai" value="block"/>
     <property name="block_id" value="10"/>
     <property name="sprite" value="res/sprites/block.spr"/>
    </properties>
   </object>
-  <object name="block" x="240" y="648" width="24" height="24">
+  <object id="43" name="block" x="240" y="648" width="24" height="24">
    <properties>
     <property name="ai" value="block"/>
     <property name="block_id" value="11"/>
     <property name="sprite" value="res/sprites/block.spr"/>
    </properties>
   </object>
-  <object name="block" x="264" y="648" width="24" height="24">
+  <object id="44" name="block" x="264" y="648" width="24" height="24">
    <properties>
     <property name="ai" value="block"/>
     <property name="block_id" value="12"/>
     <property name="sprite" value="res/sprites/block.spr"/>
    </properties>
   </object>
-  <object name="block" x="288" y="648" width="24" height="24">
+  <object id="45" name="block" x="288" y="648" width="24" height="24">
    <properties>
     <property name="ai" value="block"/>
     <property name="block_id" value="13"/>
     <property name="sprite" value="res/sprites/block.spr"/>
    </properties>
   </object>
-  <object name="block" x="312" y="648" width="24" height="24">
+  <object id="46" name="block" x="312" y="648" width="24" height="24">
    <properties>
     <property name="ai" value="block"/>
     <property name="block_id" value="14"/>
     <property name="sprite" value="res/sprites/block.spr"/>
    </properties>
   </object>
-  <object name="block" x="336" y="648" width="24" height="24">
+  <object id="47" name="block" x="336" y="648" width="24" height="24">
    <properties>
     <property name="ai" value="block"/>
     <property name="block_id" value="15"/>
     <property name="sprite" value="res/sprites/block.spr"/>
    </properties>
   </object>
-  <object name="block" x="360" y="648" width="24" height="24">
+  <object id="48" name="block" x="360" y="648" width="24" height="24">
    <properties>
     <property name="ai" value="block"/>
     <property name="block_id" value="16"/>
     <property name="sprite" value="res/sprites/block.spr"/>
    </properties>
   </object>
-  <object name="block" x="384" y="648" width="24" height="24">
+  <object id="49" name="block" x="384" y="648" width="24" height="24">
    <properties>
     <property name="ai" value="block"/>
     <property name="block_id" value="17"/>
     <property name="sprite" value="res/sprites/block.spr"/>
    </properties>
   </object>
-  <object name="block" x="408" y="648" width="24" height="24">
+  <object id="50" name="block" x="408" y="648" width="24" height="24">
    <properties>
     <property name="ai" value="block"/>
     <property name="block_id" value="18"/>
     <property name="sprite" value="res/sprites/block.spr"/>
    </properties>
   </object>
-  <object name="block" x="432" y="648" width="24" height="24">
+  <object id="51" name="block" x="432" y="648" width="24" height="24">
    <properties>
     <property name="ai" value="block"/>
     <property name="block_id" value="19"/>
     <property name="sprite" value="res/sprites/block.spr"/>
    </properties>
   </object>
-  <object name="block" x="456" y="648" width="24" height="24">
+  <object id="52" name="block" x="456" y="648" width="24" height="24">
    <properties>
     <property name="ai" value="block"/>
     <property name="block_id" value="20"/>
     <property name="sprite" value="res/sprites/block.spr"/>
    </properties>
   </object>
-  <object name="block" x="480" y="648" width="24" height="24">
+  <object id="53" name="block" x="480" y="648" width="24" height="24">
    <properties>
     <property name="ai" value="block"/>
     <property name="block_id" value="21"/>
     <property name="sprite" value="res/sprites/block.spr"/>
    </properties>
   </object>
-  <object name="block" x="504" y="648" width="24" height="24">
+  <object id="54" name="block" x="504" y="648" width="24" height="24">
    <properties>
     <property name="ai" value="block"/>
     <property name="block_id" value="22"/>
     <property name="sprite" value="res/sprites/block.spr"/>
    </properties>
   </object>
-  <object name="block" x="528" y="648" width="24" height="24">
+  <object id="55" name="block" x="528" y="648" width="24" height="24">
    <properties>
     <property name="ai" value="block"/>
     <property name="block_id" value="23"/>
     <property name="sprite" value="res/sprites/block.spr"/>
    </properties>
   </object>
-  <object name="block" x="552" y="648" width="24" height="24">
+  <object id="56" name="block" x="552" y="648" width="24" height="24">
    <properties>
     <property name="ai" value="block"/>
     <property name="block_id" value="24"/>
     <property name="sprite" value="res/sprites/block.spr"/>
    </properties>
   </object>
-  <object name="block" x="576" y="648" width="24" height="24">
+  <object id="57" name="block" x="576" y="648" width="24" height="24">
    <properties>
     <property name="ai" value="block"/>
     <property name="block_id" value="25"/>
     <property name="sprite" value="res/sprites/block.spr"/>
    </properties>
   </object>
-  <object name="block" x="600" y="648" width="24" height="24">
+  <object id="58" name="block" x="600" y="648" width="24" height="24">
    <properties>
     <property name="ai" value="block"/>
     <property name="block_id" value="26"/>
     <property name="sprite" value="res/sprites/block.spr"/>
    </properties>
   </object>
-  <object name="block" x="624" y="648" width="24" height="24">
+  <object id="59" name="block" x="624" y="648" width="24" height="24">
    <properties>
     <property name="ai" value="block"/>
     <property name="block_id" value="27"/>
     <property name="sprite" value="res/sprites/block.spr"/>
    </properties>
   </object>
-  <object name="block" x="648" y="648" width="24" height="24">
+  <object id="60" name="block" x="648" y="648" width="24" height="24">
    <properties>
     <property name="ai" value="block"/>
     <property name="block_id" value="28"/>
     <property name="sprite" value="res/sprites/block.spr"/>
    </properties>
   </object>
-  <object name="block" x="672" y="648" width="24" height="24">
+  <object id="61" name="block" x="672" y="648" width="24" height="24">
    <properties>
     <property name="ai" value="block"/>
     <property name="block_id" value="29"/>
     <property name="sprite" value="res/sprites/block.spr"/>
    </properties>
   </object>
-  <object name="block" x="696" y="648" width="24" height="24">
+  <object id="62" name="block" x="696" y="648" width="24" height="24">
    <properties>
     <property name="ai" value="block"/>
     <property name="block_id" value="30"/>
     <property name="sprite" value="res/sprites/block.spr"/>
    </properties>
   </object>
-  <object name="block" x="720" y="648" width="24" height="24">
+  <object id="63" name="block" x="720" y="648" width="24" height="24">
    <properties>
     <property name="ai" value="block"/>
     <property name="block_id" value="31"/>
     <property name="sprite" value="res/sprites/block.spr"/>
    </properties>
   </object>
-  <object name="block" x="744" y="648" width="24" height="24">
+  <object id="64" name="block" x="744" y="648" width="24" height="24">
    <properties>
     <property name="ai" value="block"/>
     <property name="block_id" value="32"/>
