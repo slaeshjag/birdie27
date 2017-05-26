@@ -126,42 +126,42 @@ void ingame_network_handler() {
 	void *p;
 	int i;
 	
-	if(!network_poll_tcp(server_sock))
-		return;
-	
-	protocol_recv_packet(server_sock, &pack);
-	
-	switch(pack.type) {
-		case PACKET_TYPE_MOVE_OBJECT:
-			p = pack.raw;
-			
-			for(i = 0; i < s->movable.movables; i++) {
-				s->movable.movable[i].x = ((int) (*((uint16_t *) p))) * 1000;
-				p+= 2;
-				s->movable.movable[i].y = ((int) (*((uint16_t *) p))) * 1000;
-				p+= 2;
-				s->movable.movable[i].direction = *((uint8_t *) p);
-				p+= 1;
-				s->movable.movable[i].angle = *((uint8_t *) p);
-				s->movable.movable[i].angle *= (2 * 10);
-				p += 1;
-				s->movable.movable[i].hp = *((uint16_t *) p);
-				p += 2;
-				s->movable.movable[i].hp_max = *((uint16_t *) p);
-				p += 2;
-			}
-			break;
+	while(network_poll_tcp(server_sock)) {
 		
-		case PACKET_TYPE_BLOCK_PLACE:
-			
-			break;
+		protocol_recv_packet(server_sock, &pack);
 		
-		case PACKET_TYPE_SOUND:
-//			soundeffects_play(pack.sound.sound);
-			break;
-		case PACKET_TYPE_EXIT:
-//			game_over_set_player(pack.exit.player, pack.exit.name);
-//			game_state(GAME_STATE_GAME_OVER);
-			break;
+		switch(pack.type) {
+			case PACKET_TYPE_MOVE_OBJECT:
+				p = pack.raw;
+				
+				for(i = 0; i < s->movable.movables; i++) {
+					s->movable.movable[i].x = ((int) (*((uint16_t *) p))) * 1000;
+					p+= 2;
+					s->movable.movable[i].y = ((int) (*((uint16_t *) p))) * 1000;
+					p+= 2;
+					s->movable.movable[i].direction = *((uint8_t *) p);
+					p+= 1;
+					s->movable.movable[i].angle = *((uint8_t *) p);
+					s->movable.movable[i].angle *= (2 * 10);
+					p += 1;
+					s->movable.movable[i].hp = *((uint16_t *) p);
+					p += 2;
+					s->movable.movable[i].hp_max = *((uint16_t *) p);
+					p += 2;
+				}
+				break;
+			
+			case PACKET_TYPE_BLOCK_PLACE:
+				s->block[pack.block_place.team].block[pack.block_place.y*BLOCKLOGIC_AREA_WIDTH + pack.block_place.x] = pack.block_place.block;
+				break;
+			
+			case PACKET_TYPE_SOUND:
+	//			soundeffects_play(pack.sound.sound);
+				break;
+			case PACKET_TYPE_EXIT:
+	//			game_over_set_player(pack.exit.player, pack.exit.name);
+	//			game_state(GAME_STATE_GAME_OVER);
+				break;
+		}
 	}
 }
