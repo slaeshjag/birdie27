@@ -180,7 +180,6 @@ void ingame_network_handler() {
 			
 			case PACKET_TYPE_BLOCK_PLACE:
 				s->block[pack.block_place.team].block[pack.block_place.y*BLOCKLOGIC_AREA_WIDTH + pack.block_place.x] = pack.block_place.block;
-				fprintf(stderr, "Got block at %i %i\n", pack.block_place.x, pack.block_place.y);
 				blocklogic_separate_all_towers();
 				blocklogic_copy_for_render();
 				break;
@@ -188,7 +187,6 @@ void ingame_network_handler() {
 			case PACKET_TYPE_BLOOD:
 				d_particle_emitter_move(s->player[pack.blood.player].blood, pack.blood.x, pack.blood.y);
 				d_particle_pulse(s->player[pack.blood.player].blood);
-				printf("bloooood @ (%i %i)\n", pack.blood.x, pack.blood.y);
 				break;
 			
 			case PACKET_TYPE_SOUND:

@@ -130,32 +130,52 @@ int blocklogic_find_place_splat(int area, int x, int y, int block_w, int block_h
 static int _separate_towers(int area, uint8_t * separated_field) {
 	int fields = 0;
 	int x, y;
+	int stable_y;
+	bool collapsed = false;
 	
 	uint8_t *tempfield = malloc(BLOCKLOGIC_AREA_WIDTH*BLOCKLOGIC_AREA_HEIGHT);
-	memcpy(tempfield, s->block[area].block, BLOCKLOGIC_AREA_HEIGHT*BLOCKLOGIC_AREA_WIDTH);
 	
-	y = BLOCKLOGIC_AREA_HEIGHT - 1;
-	for(x = 0; x < BLOCKLOGIC_AREA_WIDTH; x++) {
-		uint8_t block = BLOCK(x, y);
-		if(block != 0 && block != 0xFF) {
-			int center_of_gravity_x = 0, center_of_gravity_y = 0;
-			int mass_total = 0;
-			
-			_mark_and_copy(tempfield, separated_field + (fields * BLOCKLOGIC_AREA_WIDTH*BLOCKLOGIC_AREA_HEIGHT), BLOCKLOGIC_AREA_WIDTH, BLOCKLOGIC_AREA_HEIGHT,
-				x, y, block, 0xFF, &center_of_gravity_x, &center_of_gravity_y, &mass_total);
-			
-			if(mass_total) {
-				center_of_gravity_x /= mass_total;
-				center_of_gravity_y /= mass_total;
+	do {
+		memcpy(tempfield, s->block[area].block, BLOCKLOGIC_AREA_HEIGHT*BLOCKLOGIC_AREA_WIDTH);
+		
+		y = BLOCKLOGIC_AREA_HEIGHT - 1;
+		for(x = 0; x < BLOCKLOGIC_AREA_WIDTH; x++) {
+			uint8_t block = BLOCK(x, y);
+			if(block != 0 && block != 0xFF) {
+				int center_of_gravity_x = 0, center_of_gravity_y = 0;
+				int mass_total = 0;
 				
-				printf("center of gravity: (%i %i)\n", center_of_gravity_x, center_of_gravity_y);
-				s->center_of_gravity[fields].x = center_of_gravity_x;
-				s->center_of_gravity[fields].y = center_of_gravity_y;
+				_mark_and_copy(tempfield, separated_field + (fields * BLOCKLOGIC_AREA_WIDTH*BLOCKLOGIC_AREA_HEIGHT), BLOCKLOGIC_AREA_WIDTH, BLOCKLOGIC_AREA_HEIGHT,
+					x, y, block, 0xFF, &center_of_gravity_x, &center_of_gravity_y, &mass_total);
+				
+				if(mass_total) {
+					center_of_gravity_x /= mass_total;
+					center_of_gravity_y /= mass_total;
+					
+					printf("center of gravity: (%i %i)\n", center_of_gravity_x, center_of_gravity_y);
+					s->center_of_gravity[fields].x = center_of_gravity_x;
+					s->center_of_gravity[fields].y = center_of_gravity_y;
+				}
+				
+				fields++;
 			}
-			
-			fields++;
 		}
-	}
+		
+		for(x = 0; x < BLOCKLOGIC_AREA_WIDTH; x++) {
+			stable_y = BLOCKLOGIC_AREA_HEIGHT - 1;
+			for(y = BLOCKLOGIC_AREA_HEIGHT - 1; y >= 0; y--) {
+				if(tempfield[y*BLOCKLOGIC_AREA_WIDTH + x] == 0xFF) {
+					stable_y = y - 1;
+				} else if(tempfield[y*BLOCKLOGIC_AREA_WIDTH + x] != 0) {
+					s->block[area].block[stable_y*BLOCKLOGIC_AREA_WIDTH + x] = tempfield[y*BLOCKLOGIC_AREA_WIDTH + x];
+					s->block[area].block[stable_y*BLOCKLOGIC_AREA_WIDTH + x] = 0x0;
+					stable_y--;
+					collapsed = true;
+				}
+			}
+		}
+	
+	} while(collapsed);
 	
 	free(tempfield);
 	

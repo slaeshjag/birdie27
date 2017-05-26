@@ -108,7 +108,7 @@ void gameroom_network_handler() {
 				s->player[pack.join.id].blood = d_particle_new(1000, DARNIT_PARTICLE_TYPE_POINT);
 				d_particle_color_start(s->player[pack.join.id].blood, 128, 0, 0, 255);
 				d_particle_color_target(s->player[pack.join.id].blood, 128, 0, 0, 0);
-				d_particle_life(s->player[pack.join.id].blood, 1500);
+				d_particle_life(s->player[pack.join.id].blood, 1000);
 				d_particle_mode(s->player[pack.join.id].blood, DARNIT_PARTICLE_MODE_PULSAR);
 				d_particle_emitter_velocity(s->player[pack.join.id].blood, 100, 1500);
 				d_particle_emitter_angle(s->player[pack.join.id].blood, 0, 3600);
