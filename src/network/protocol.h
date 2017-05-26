@@ -15,6 +15,7 @@ enum PacketType {
 	PACKET_TYPE_MOVE_OBJECT,
 	PACKET_TYPE_SOUND,
 	PACKET_TYPE_KEYPRESS,
+	PACKET_TYPE_BLOCK_PLACE,
 	PACKET_TYPE_EXIT,
 };
 
@@ -86,6 +87,15 @@ struct PacketSound {
 
 	uint8_t sound;
 };
+
+
+typedef struct PacketBlockPlace PacketBlockPlace;
+struct PacketBlockPlace {
+	uint8_t team;
+	uint8_t	x;
+	uint8_t	y;
+};
+
 
 typedef struct PacketExit PacketExit;
 struct PacketExit {

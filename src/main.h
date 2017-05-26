@@ -6,6 +6,7 @@
 
 #include "movable.h"
 #include "player.h"
+#include "blocklogic.h"
 #define DISPLAY_WIDTH 800
 #define DISPLAY_HEIGHT 600
 #define PORT 1339
@@ -56,6 +57,7 @@ struct GameStateStruct {
 //	BULLET			bullet;
 //	struct HealthbarStruct	healthbar;
 	struct PlayerState	player[PLAYER_CAP];
+	struct BlockLogic	block[2]; // One per team for now
 //	struct SoundeffectStruct sfx;
 	struct {
 				int x;

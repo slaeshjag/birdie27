@@ -3,10 +3,11 @@
 
 #include <stdint.h>
 
+#define	BLOCKLOGIC_AREA_WIDTH	16
+#define	BLOCKLOGIC_AREA_HEIGHT	21
+
 struct BlockLogicBlock {
-	uint8_t			*block;
-	int			w;
-	int			h;
+	uint8_t			block[BLOCKLOGIC_AREA_WIDTH*BLOCKLOGIC_AREA_HEIGHT];
 };
 
 
