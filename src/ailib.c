@@ -165,8 +165,8 @@ void ai_player(void *dummy, void *entry, MOVABLE_MSG msg) {
 					self->y_velocity = -600;
 			}
 
-			//s->player[player_id].holding->x = self->x;
-			//s->player[player_id].holding->y = self->y - 24000;
+			s->player[player_id].holding->x = self->x;
+			s->player[player_id].holding->y = self->y - 24000;
 
 			noinput:
 
