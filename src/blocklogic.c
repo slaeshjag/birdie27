@@ -44,6 +44,27 @@ int block_place(int x, int y, int team, uint8_t block) {
 	return protocol_send_packet(server_sock, &pack);
 }
 
+
+int blocklogic_area_connected(int area, int x, int y) {
+	if (x - 1 >= 0) {
+		if (s->block[area].block[(y) * BLOCKLOGIC_AREA_WIDTH+(x-1)])
+			return 1;
+	} if (x + 1 < BLOCKLOGIC_AREA_WIDTH) {
+		if (s->block[area].block[(y) * BLOCKLOGIC_AREA_WIDTH+(x+1)])
+			return 1;
+	} if (y - 1 >= 0) {
+		if (s->block[area].block[(y-1) * BLOCKLOGIC_AREA_WIDTH+(x)])
+			return 1;
+	} if (y + 1 < BLOCKLOGIC_AREA_HEIGHT) {
+		if (s->block[area].block[(y+1) * BLOCKLOGIC_AREA_WIDTH+(x)])
+			return 1;
+	} if (y + 1 == BLOCKLOGIC_AREA_HEIGHT)
+		return 1;
+
+	return 0;
+}
+
+
 int blocklogic_area_clear(int area, int x, int y, int w, int h) {
 	int i, j;
 
@@ -51,7 +72,7 @@ int blocklogic_area_clear(int area, int x, int y, int w, int h) {
 		for (j = 0; j < w; j++)
 			if (s->block[area].block[(y+i)*BLOCKLOGIC_AREA_WIDTH+(x+j)])
 				return 0;
-	return 1;
+	return blocklogic_area_connected(area, x, y);
 }
 
 
