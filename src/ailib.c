@@ -185,7 +185,7 @@ void ai_player(void *dummy, void *entry, MOVABLE_MSG msg) {
 				}
 			}
 
-			if (ingame_keystate[player_id].action/* && !self->y_velocity*/) {
+			if (ingame_keystate[player_id].action && !self->y_velocity) {
 				int x, y, area;
 				area = self->x < 432000?0:1;
 				if (!s->player[player_id].holding->direction) {
