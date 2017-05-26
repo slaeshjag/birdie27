@@ -93,6 +93,19 @@ void server_handle_client(ClientList *cli) {
 					protocol_send_packet(tmp->sock, &response);
 				}
 				break;
+			
+			case PACKET_TYPE_BLOOD:
+				response.type = PACKET_TYPE_BLOOD;
+				response.size = sizeof(PacketBlood);
+				response.blood.x = pack.blood.x;
+				response.blood.y = pack.blood.y;
+				response.blood.player = pack.blood.player;
+				
+				for(tmp = client; tmp; tmp = tmp->next) {
+					protocol_send_packet(tmp->sock, &response);
+				}
+				break;
+			
 			default:
 				fprintf(stderr, "wat %i\n", pack.type);
 				break;

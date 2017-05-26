@@ -12,6 +12,7 @@ struct PlayerState {
 	int movable;
 	int velocity_y_old;
 	MOVABLE_ENTRY *holding;
+	DARNIT_PARTICLE *blood;
 };
 
 

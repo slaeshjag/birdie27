@@ -16,6 +16,7 @@ enum PacketType {
 	PACKET_TYPE_SOUND,
 	PACKET_TYPE_KEYPRESS,
 	PACKET_TYPE_BLOCK_PLACE,
+	PACKET_TYPE_BLOOD,
 	PACKET_TYPE_EXIT,
 };
 
@@ -53,30 +54,14 @@ struct PacketKeypress {
 	InGameKeyStateEntry keypress, keyrelease;
 };
 
-typedef struct PacketParticleBurst PacketParticleBurst;
-struct PacketParticleBurst {
+typedef struct PacketBlood PacketBlood;
+struct PacketBlood {
 	uint16_t type;
 	uint16_t size;
-
-	uint8_t point_size;
-	uint8_t color_r;
-	uint8_t color_g;
-	uint8_t color_b;
-	uint8_t color_a;
-	uint8_t color_rt;
-	uint8_t color_gt;
-	uint8_t color_bt;
-	uint8_t color_at;
-	int16_t angle_min;
-	int16_t angle_max;
-	int16_t gravity_x;
-	int16_t gravity_y;
-	int16_t velocity_min;
-	int16_t velocity_max;
-	int16_t spawnrate;
-	int16_t life;
-
 	
+	uint32_t player;
+	uint32_t x;
+	uint32_t y;
 };
 
 
@@ -125,6 +110,7 @@ union Packet {
 	PacketKeypress keypress;
 	PacketExit exit;
 	PacketBlockPlace block_place;
+	PacketBlood blood;
 };
 
 int protocol_send_packet(int sock, Packet *pack);

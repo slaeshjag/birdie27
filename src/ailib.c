@@ -3,6 +3,7 @@
 #include "ingame.h"
 #include "main.h"
 #include "block.h"
+#include "network/protocol.h"
 #include "trigonometry.h"
 #include "blocklogic.h"
 //#include "soundeffects.h"
@@ -93,6 +94,17 @@ static void _reset_block(MOVABLE_ENTRY *me) {
 }
 
 static void _die(MOVABLE_ENTRY *self, int player_id) {
+	Packet pack;
+	
+	pack.type = PACKET_TYPE_BLOOD;
+	pack.size = sizeof(PacketBlood);
+	
+	pack.blood.player = player_id;
+	pack.blood.x = self->x/1000;
+	pack.blood.y = self->y/1000;
+	
+	protocol_send_packet(server_sock, &pack);
+	
 	self->x_velocity = self->y_velocity = 0;
 	
 	self->x = s->active_level->object[self->id].x*1000*24;

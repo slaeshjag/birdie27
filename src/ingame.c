@@ -66,7 +66,13 @@ void ingame_loop() {
 
 	for (i = 0; i < 16; i++)
 		tm_renderhack_context_render(s->tmrender[i], 0.f);
-
+	
+	for(i = 0; i < PLAYER_CAP; i++) {
+		if(s->player[i].active) {
+			d_particle_draw(s->player[i].blood);
+		}
+	}
+	
 //	healthbar_draw();
 	ingame_client_keyboard();
 }
@@ -171,6 +177,12 @@ void ingame_network_handler() {
 				fprintf(stderr, "Got block at %i %i\n", pack.block_place.x, pack.block_place.y);
 				blocklogic_separate_all_towers();
 				blocklogic_copy_for_render();
+				break;
+			
+			case PACKET_TYPE_BLOOD:
+				d_particle_emitter_move(s->player[pack.blood.player].blood, pack.blood.x, pack.blood.y);
+				d_particle_pulse(s->player[pack.blood.player].blood);
+				printf("bloooood @ (%i %i)\n", pack.blood.x, pack.blood.y);
 				break;
 			
 			case PACKET_TYPE_SOUND:
