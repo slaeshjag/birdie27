@@ -13,7 +13,7 @@
 #define GAME_TITLE "birdie27"
 
 #define NAME_LEN_MAX 64
-#define	PLAYER_CAP 1024
+#define	PLAYER_CAP 32
 
 #define PANE_R 0xCD
 #define PANE_G 0xCD

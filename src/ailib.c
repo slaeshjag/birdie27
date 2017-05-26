@@ -14,9 +14,22 @@
 int _get_player_id(MOVABLE_ENTRY *self) {
 	/* On a scale of 1 to italy, how inefficient is this? */
 	const char *playerid_str;
-	if (!(playerid_str = d_map_prop(s->active_level->object[self->id].ref, "player_id")))
-		return 0;
-	return atoi(playerid_str) - 1;
+	int movable_id, i;
+	if (!(playerid_str = d_map_prop(s->active_level->object[self->id].ref, "player_id"))) {
+		return -1;
+	}
+
+	//fprintf(stderr, "%s, %i\n", playerid_str, self->id);
+	movable_id = atoi(playerid_str) - 1;
+	//return movable_id;
+	for (i = 0; i < PLAYER_CAP; i++) {
+		if (!s->player[i].active)
+			continue;
+		//fprintf(stderr, "active %i, %i, %i\n", i, s->player[i].movable, movable_id);
+		if (s->player[i].movable == movable_id)
+			return i;
+	}
+	return -1;
 }
 
 
@@ -62,32 +75,49 @@ static int _player_fix_hitbox(MOVABLE_ENTRY *self) {
 void ai_player(void *dummy, void *entry, MOVABLE_MSG msg) {
 	MOVABLE_ENTRY *self = entry;
 	int player_id;
-	
-	player_id = _get_player_id(self);
+
+	if (!s->is_host) {
+		fprintf(stderr, "Not host\n");
+		return;
+	}
 	switch (msg) {
 		case MOVABLE_MSG_INIT:
+			self->flag = 1;
 			self->hp = self->hp_max = 400;
 			self->gravity_effect = 1;
-			s->player[player_id].last_walk_direction = 0;
-			if (player_id >= PLAYER_CAP)	// TODO: replace PLAYER_CAP with actual number of connected players //
-				self->hp = 0;
+			//if (player_id >= PLAYER_CAP)	// TODO: replace PLAYER_CAP with actual number of connected players //
+			//	self->hp = 0;
 			//if (!server_player_is_present(player_id))
 			//	self->hp = 0;
-			s->player[player_id].holding = NULL;
-			s->player[player_id].pulling = 0;
 			break;
 		case MOVABLE_MSG_LOOP:
+			player_id = _get_player_id(self);
 			//if (_player_fix_hitbox(self))
 			//	break;
-
+			fprintf(stderr, "%i %i\n", player_id, ingame_keystate[0].left);
+			if (self->flag) {
+				if (player_id >= 0) {
+					s->player[player_id].last_walk_direction = 0;
+					s->player[player_id].holding = NULL;
+					s->player[player_id].pulling = 0;
+				}
+				self->flag = 0;
+				if (player_id < 0 || !s->player[player_id].active)
+					self->hp = 0;
+				return;
+			}
+			
+			if (player_id < 0)
+				return;
 			if (ingame_keystate[player_id].left) {
 				self->x_velocity = -400;
 				s->player[player_id].last_walk_direction = 0;
 			} else if (ingame_keystate[player_id].right) {
 				self->x_velocity = 400;
 				s->player[player_id].last_walk_direction = 1;
-			} else
+			} else {
 				self->x_velocity = 0;
+			}
 			if (ingame_keystate[player_id].jump) {
 				DARNIT_KEYS keys;
 				

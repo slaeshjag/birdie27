@@ -133,7 +133,7 @@ void ingame_network_handler() {
 	
 	switch(pack.type) {
 		case PACKET_TYPE_MOVE_OBJECT:
-/*			p = pack.raw;
+			p = pack.raw;
 			
 			for(i = 0; i < s->movable.movables; i++) {
 				s->movable.movable[i].x = ((int) (*((uint16_t *) p))) * 1000;
@@ -150,7 +150,6 @@ void ingame_network_handler() {
 				s->movable.movable[i].hp_max = *((uint16_t *) p);
 				p += 2;
 			}
-*/			
 			break;
 		case PACKET_TYPE_SOUND:
 //			soundeffects_play(pack.sound.sound);

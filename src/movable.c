@@ -19,8 +19,23 @@ int movableInit() {
 }
 
 
+static int _lookup_movable_player_id(int id) {
+	const char *playerid_str;
+	int i;
+
+	for (i = 0; i < s->movable.movables; i++) {
+		if (!(playerid_str = s->active_level->object[s->movable.movable[i].id].ref, "block_id"))
+			return 0;
+		if (atoi(playerid_str) == id)
+			return i;
+	}
+
+	return 0;
+}
+
+
 void movableSpawn() {
-	int i, h_x, h_y, h_w, h_h;
+	int i, h_x, h_y, h_w, h_h, team1 = 0, team2 = 16;
 
 	for (i = 0; i < s->movable.movables; i++) {
 		if (s->movable.movable[i].prevent_respawn)
@@ -31,6 +46,7 @@ void movableSpawn() {
 		s->movable.movable[i].y = s->active_level->object[i].y * 1000 * s->active_level->layer->tile_h;
 		s->movable.movable[i].l = s->active_level->object[i].l;
 		s->movable.movable[i].direction = 0;
+		//s->movable.movable[i].hp = 1;
 		s->movable.movable[i].angle = 0;
 		s->movable.movable[i].gravity_effect = 0;
 		s->movable.movable[i].x_velocity = 0;
@@ -40,6 +56,24 @@ void movableSpawn() {
 		d_bbox_add(s->movable.bbox, s->movable.movable[i].x / 1000 + h_x, s->movable.movable[i].x / 1000 + h_x, h_w, h_h);
 		if (s->movable.movable[i].ai)
 			s->movable.movable[i].ai(s, &s->movable.movable[i], MOVABLE_MSG_INIT);
+
+	}
+
+	for (i = 0; i < PLAYER_CAP; i++) {
+		if (!s->player[i].active)
+			s->player[i].movable = 31;
+		else if (!s->player[i].team) {
+			s->player[i].movable = team1++;
+		} else {
+			s->player[i].movable = team2++;
+		}
+	}
+
+	if (s->is_host) {
+		//for (i = team1; i < 16; i++)
+		//	s->movable.movable[_lookup_movable_player_id(i)].hp = 0;
+		//for (i = team2; i < 32; i++)
+		//	s->movable.movable[_lookup_movable_player_id(i)].hp = 0;
 	}
 
 	return;

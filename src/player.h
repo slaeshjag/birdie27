@@ -9,6 +9,7 @@ struct PlayerState {
 	int team;
 	int last_walk_direction;
 	int pulling;
+	int movable;
 	MOVABLE_ENTRY *holding;
 };
 

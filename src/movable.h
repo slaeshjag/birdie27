@@ -56,6 +56,7 @@ typedef struct {
 	int			angle;
 	void			(*ai)(void *s, void *entry, MOVABLE_MSG msg);
 	void			*mystery_pointer;
+	int			flag;
 } MOVABLE_ENTRY;
 	
 

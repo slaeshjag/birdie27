@@ -157,7 +157,7 @@ int main(int argc, char  **argv) {
 	sprintf(font_path, "%s/res/font.ttf", tmp);
 	gfx.font.large = d_font_load(font_path, 40, 256, 256);
 	gfx.font.small = d_font_load(font_path, 16, 256, 256);
-	s = malloc(sizeof(*s));
+	s = calloc(sizeof(*s), 1);
 
 	muil_init(4);
 	menu_init();

@@ -101,7 +101,7 @@ union Packet {
 	struct {
 		uint16_t type;
 		uint16_t size;
-		uint8_t raw[512];
+		uint8_t raw[1024];
 	};
 	
 	PacketLobby lobby;
