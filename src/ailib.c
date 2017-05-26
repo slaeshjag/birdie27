@@ -49,6 +49,7 @@ int _get_player_id(MOVABLE_ENTRY *self) {
 static int _player_direction(MOVABLE_ENTRY *self) {
 	int player_id;
 
+	return 0;
 	player_id = _get_player_id(self);
 	if (player_id < 0 || player_id >= PLAYER_CAP)
 		return 0;
@@ -142,6 +143,7 @@ void ai_player(void *dummy, void *entry, MOVABLE_MSG msg) {
 				self->flag = 0;
 				if (player_id < 0 || !s->player[player_id].active)
 					self->hp = 0;
+				self->direction = 0;
 				return;
 			}
 			
