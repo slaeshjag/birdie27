@@ -151,6 +151,11 @@ void ingame_network_handler() {
 				p += 2;
 			}
 			break;
+		
+		case PACKET_TYPE_BLOCK_PLACE:
+			
+			break;
+		
 		case PACKET_TYPE_SOUND:
 //			soundeffects_play(pack.sound.sound);
 			break;

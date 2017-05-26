@@ -88,6 +88,7 @@ void server_handle_client(ClientList *cli) {
 			response.block_place.x = pack.block_place.x;
 			response.block_place.y = pack.block_place.y;
 			response.block_place.team = pack.block_place.team;
+			response.block_place.block = pack.block_place.block;
 			
 			for(tmp = client; tmp; tmp = tmp->next) {
 				protocol_send_packet(tmp->sock, &response);

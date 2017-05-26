@@ -22,7 +22,7 @@ static int _mark_and_copy(uint8_t *data_in, uint8_t *data_out, int w, int h, int
 	return 0;
 }
 
-int block_place(int x, int y, int team) {
+int block_place(int x, int y, int team, uint8_t block) {
 	Packet pack;
 	
 	pack.type = PACKET_TYPE_BLOCK_PLACE;
@@ -30,6 +30,7 @@ int block_place(int x, int y, int team) {
 	pack.block_place.x = x;
 	pack.block_place.y = y;
 	pack.block_place.team = team;
+	pack.block_place.block = block;
 	
 	return protocol_send_packet(server_sock, &pack);
 }
