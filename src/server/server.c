@@ -45,54 +45,53 @@ void server_handle_client(ClientList *cli) {
 	Packet response;
 	ClientList *tmp;
 	
-	if(!network_poll_tcp(cli->sock))
-		return;
-
-	protocol_recv_packet(cli->sock, &pack);
-	
-	switch(pack.type) {
-		case PACKET_TYPE_JOIN:
-			strcpy(cli->name, pack.join.name);
-			cli->team = pack.join.team;
-			
-			response.type = PACKET_TYPE_JOIN;
-			response.size = sizeof(PacketJoin);
-			
-			for(tmp = client; tmp; tmp = tmp->next) {
-				memset(response.join.name, 0, NAME_LEN_MAX);
-				strcpy(response.join.name, tmp->name);
-				response.join.team = tmp->team;
-				response.join.id = tmp->id;
-				protocol_send_packet(cli->sock, &response);
+	while(network_poll_tcp(cli->sock)) {
+		protocol_recv_packet(cli->sock, &pack);
+		
+		switch(pack.type) {
+			case PACKET_TYPE_JOIN:
+				strcpy(cli->name, pack.join.name);
+				cli->team = pack.join.team;
 				
-				if(tmp->sock != cli->sock) {
-					response.join.id = cli->id;
-					strcpy(response.join.name, cli->name);
-					response.join.team = cli->team;
+				response.type = PACKET_TYPE_JOIN;
+				response.size = sizeof(PacketJoin);
+				
+				for(tmp = client; tmp; tmp = tmp->next) {
+					memset(response.join.name, 0, NAME_LEN_MAX);
+					strcpy(response.join.name, tmp->name);
+					response.join.team = tmp->team;
+					response.join.id = tmp->id;
+					protocol_send_packet(cli->sock, &response);
+					
+					if(tmp->sock != cli->sock) {
+						response.join.id = cli->id;
+						strcpy(response.join.name, cli->name);
+						response.join.team = cli->team;
+						protocol_send_packet(tmp->sock, &response);
+					}
+				}
+				
+				break;
+			
+			case PACKET_TYPE_KEYPRESS:
+				HANDLE_KEY(left);
+				HANDLE_KEY(right);
+				HANDLE_KEY(jump);
+				HANDLE_KEY(action);
+				break;
+			
+			case PACKET_TYPE_BLOCK_PLACE:
+				response.type = PACKET_TYPE_BLOCK_PLACE;
+				response.size = sizeof(PacketBlockPlace);
+				response.block_place.x = pack.block_place.x;
+				response.block_place.y = pack.block_place.y;
+				response.block_place.team = pack.block_place.team;
+				response.block_place.block = pack.block_place.block;
+				
+				for(tmp = client; tmp; tmp = tmp->next) {
 					protocol_send_packet(tmp->sock, &response);
 				}
-			}
-			
-			break;
-		
-		case PACKET_TYPE_KEYPRESS:
-			HANDLE_KEY(left);
-			HANDLE_KEY(right);
-			HANDLE_KEY(jump);
-			HANDLE_KEY(action);
-			break;
-		
-		case PACKET_TYPE_BLOCK_PLACE:
-			response.type = PACKET_TYPE_BLOCK_PLACE;
-			response.size = sizeof(PacketBlockPlace);
-			response.block_place.x = pack.block_place.x;
-			response.block_place.y = pack.block_place.y;
-			response.block_place.team = pack.block_place.team;
-			response.block_place.block = pack.block_place.block;
-			
-			for(tmp = client; tmp; tmp = tmp->next) {
-				protocol_send_packet(tmp->sock, &response);
-			}
+		}
 	}
 }
 
