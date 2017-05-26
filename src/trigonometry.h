@@ -25,6 +25,11 @@ freely, subject to the following restrictions:
 #ifndef __TRIGONOMENTRY_HELPER_H__
 #define __TRIGONOMENTRY_HELPER_H__
 
+typedef struct Vector2 Vector2;
+struct Vector2 {
+	int x;
+	int y;
+};
 
 float trig_delta_to_angle_f(float dx, float dy);
 double trig_delta_to_angle_d(double dx, double dy);

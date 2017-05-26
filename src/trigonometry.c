@@ -1,5 +1,6 @@
 /*
 Copyright (c) 2015 Steven Arnow <s@rdw.se>
+Modified 2017 Axel Isaksson: added coordinate system function
 'trigonometry.c'
 
 This software is provided 'as-is', without any express or implied
@@ -23,6 +24,7 @@ freely, subject to the following restrictions:
 */
 
 #include <math.h>
+#include "trigonometry.h"
 
 #ifndef M_PI
 #define	M_PI 3.141592653589793  
@@ -47,3 +49,23 @@ freely, subject to the following restrictions:
 
 trig_delta_to_angle(float, f, atanf)
 trig_delta_to_angle(double, d, atan)
+
+
+Vector2 transform_rotated_system(int center_x, int center_y, float degrees, int x_in, int y_in) {
+	int x, y;
+	double dist, ang;
+	Vector2 ret;
+	
+	x = x_in - center_x;
+	y = y_in - center_y;
+	
+	dist = sqrt(x*x + y*y);
+	ang = trig_delta_to_angle_d(x, y);
+	
+	ang -= degrees;
+	
+	ret.x = dist*cos(ang *M_PI/180.0);
+	ret.y = dist*sin(ang *M_PI/180.0);
+	
+	return ret;
+}

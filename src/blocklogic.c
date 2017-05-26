@@ -117,3 +117,30 @@ int block_separate_towers(int area, uint8_t * separated_field) {
 	
 	return fields;
 }
+
+void spawn_projectile(int x, int y, double direction, int team) {
+	
+}
+
+void trigger_weapons(DARNIT_TILEMAP *map, int team) {
+	int x, y;
+	int count, compare;
+	
+	for(y = 0; y < map->h; y++) {
+		for(x = 0; x < map->w; x++) {
+			if(map->data[y * map->w + x] & 0x80000000UL) {
+				count = ((map->data[y * map->w + x]) >> 23) & 0xFF;
+				compare = ((map->data[y * map->w + x]) >> (23 - 8)) & 0xFF;
+				
+				if(!((d_time_get() & 0xFF) ==  count)) {
+					spawn_projectile(x, y, 0, team);
+				}
+				
+				if(count == compare) {
+					map->data[y * map->w + x] &= ~(0xFF << 23);
+				}
+					
+			}
+		}
+	}
+}
