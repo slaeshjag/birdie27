@@ -12,7 +12,7 @@
 #include <stdbool.h>
 #include <math.h>
 
-
+#define DEATH_VELOCITY 400
 
 int _get_block_from_entry(MOVABLE_ENTRY *self) {
 	const char *playerid_str = d_map_prop(s->active_level->object[self->id].ref, "player_id");
@@ -149,6 +149,17 @@ void ai_player(void *dummy, void *entry, MOVABLE_MSG msg) {
 				return;
 			}
 			
+			if(self->y_velocity == 0 && s->player[player_id].velocity_y_old > DEATH_VELOCITY) {
+				self->x_velocity = self->y_velocity = 0;
+				int i;
+				
+				self->x = s->active_level->object[self->id].x*1000*24;
+				self->y = s->active_level->object[self->id].y*1000*24;
+								
+				s->player[player_id].holding->direction = block_spawn();
+			}
+			s->player[player_id].velocity_y_old = self->y_velocity;
+			
 			if (player_id < 0)
 				return;
 			if (ingame_keystate[player_id].left) {
@@ -183,7 +194,7 @@ void ai_player(void *dummy, void *entry, MOVABLE_MSG msg) {
 					s->block[area].block[x + BLOCKLOGIC_AREA_WIDTH * y] = s->player[player_id].holding->direction;
 					block_place(x, y, area, s->player[player_id].holding->direction);
 
-					//s->player[player_id].holding->direction = 0;
+					s->player[player_id].holding->direction = 0;
 				} else {
 					fprintf(stderr, "can't park here\n");
 				}

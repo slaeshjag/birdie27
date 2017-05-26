@@ -152,6 +152,8 @@ int main(int argc, char  **argv) {
 	
 	d_init_custom(GAME_TITLE " ~ //achtung fulkod", DISPLAY_WIDTH, DISPLAY_HEIGHT, 0, "birdie27", NULL);
 	
+	srand(time(NULL));
+	
 	sprintf(font_path, "%s", d_fs_exec_path());
 	chdir(tmp = dirname(font_path));
 	sprintf(font_path, "%s/res/font.ttf", tmp);
