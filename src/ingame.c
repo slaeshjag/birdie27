@@ -18,6 +18,8 @@ void ingame_init() {
 	s->active_level = d_map_load(util_binrel_path("res/goesta.ldmz"));
 	s->camera.follow = -1;
 	s->camera.x = s->camera.y = 0;
+	for (i = 0; i < 16; i++)
+		s->tmrender[i] = tm_renderhack_context_new(s->active_level->layer[0].tilemap);
 
 	movableInit();
 //	bulletInit();

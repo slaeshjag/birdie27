@@ -3,6 +3,7 @@
 #include "ingame.h"
 #include "main.h"
 #include "trigonometry.h"
+#include "blocklogic.h"
 //#include "soundeffects.h"
 //#include "server/server.h"
 #include <string.h>
@@ -104,7 +105,7 @@ void ai_block(void *dummy, void *entry, MOVABLE_MSG msg) {
 			self->x = 99999999; // Nobody should see us here... ///
 			self->y = 99999999;
 			self->gravity_effect = 0;
-			self->direction = 0;
+			self->direction = 1;
 			break;
 		default:
 			break;
@@ -165,6 +166,21 @@ void ai_player(void *dummy, void *entry, MOVABLE_MSG msg) {
 				
 				if (!self->y_velocity)
 					self->y_velocity = -600;
+			}
+
+			if (ingame_keystate[player_id].action && !self->y_velocity) {
+				int x, y, area;
+				area = self->x < 432000?0:1;
+				//if (!s->player[player_id].holding->direction) {
+				//	fprintf(stderr, "Nothing to park here\n");
+				/*} else */if (blocklogic_find_place_site(area, ((self->x - 24000)%(384000))/1000/24, (self->y - 24000)/1000/24, s->player[player_id].last_walk_direction, 1, 1, &x, &y)) {
+					s->block[area].block[x + BLOCKLOGIC_AREA_WIDTH * y] = s->player[player_id].holding->direction;
+					block_place(x, y, area, s->player[player_id].holding->direction);
+					s->player[player_id].holding->direction = 0;
+					fprintf(stderr, "parking here\n");
+				} else {
+					fprintf(stderr, "can't park here\n");
+				}
 			}
 
 			s->player[player_id].holding->x = self->x;

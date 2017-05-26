@@ -58,6 +58,8 @@ struct GameStateStruct {
 //	struct HealthbarStruct	healthbar;
 	struct PlayerState	player[PLAYER_CAP];
 	struct BlockLogicBlock	block[2]; // One per team for now
+
+	struct TMRenderHackContext *tmrender[16];
 //	struct SoundeffectStruct sfx;
 	struct {
 				int x;
