@@ -70,9 +70,7 @@ void tm_renderhack_context_copy(struct TMRenderHackContext *tmrhc, uint8_t *tile
 
 	for (j = 0; j < BLOCKLOGIC_AREA_HEIGHT; j++) {
 		for (i = 0; i < BLOCKLOGIC_AREA_WIDTH; i++) {
-			if (tiles[BLOCKLOGIC_AREA_WIDTH*j+i])
-				fprintf(stderr, "DATA!\n");
-			tmrhc->tm->data[j*BLOCKLOGIC_AREA_WIDTH + (BLOCKLOGIC_AREA_WIDTH - corner) + i] = tiles[BLOCKLOGIC_AREA_WIDTH*j+i];
+			tmrhc->tm->data[j*BLOCKLOGIC_AREA_WIDTH*2 + (BLOCKLOGIC_AREA_WIDTH - corner) + i] = tiles[BLOCKLOGIC_AREA_WIDTH*j+i];
 		}
 	}
 
