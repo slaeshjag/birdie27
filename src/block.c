@@ -1,11 +1,14 @@
+#include "movable.h"
 #include "block.h"
 
 Block block_property[BLOCK_TYPE_BLOCKS] = {
-	[BLOCK_TYPE_BRICK] = {.mass = 100, .spawn_chance = 100, .tile = 21},
-	[BLOCK_TYPE_BUS] = {.mass = 200, .spawn_chance = 100, .tile = 42},
-	[BLOCK_TYPE_COW] = {.mass = 300, .spawn_chance = 100, .tile = 42},
-	[BLOCK_TYPE_BANANAS] = {.mass = 400, .spawn_chance = 100, .tile = 48},
-	[BLOCK_TYPE_CRATE] = {.mass = 500, .spawn_chance = 100, .tile = 47},
+	[BLOCK_TYPE_BRICK] = {.mass = 100, .spawn_chance = 100, .tile = 21, COLLISION_ALL},
+	[BLOCK_TYPE_BUS] = {.mass = 200, .spawn_chance = 100, .tile = 42, COLLISION_ALL},
+	[BLOCK_TYPE_COW] = {.mass = 300, .spawn_chance = 100, .tile = 42, COLLISION_ALL},
+	[BLOCK_TYPE_BANANAS] = {.mass = 400, .spawn_chance = 100, .tile = 48, COLLISION_ALL},
+	[BLOCK_TYPE_CRATE] = {.mass = 500, .spawn_chance = 100, .tile = 47, COLLISION_ALL},
+	
+	[BLOCK_TYPE_LADDER] = {.mass = 100, .spawn_chance = 500, .tile = 22, COLLISION_TOP},
 };
 
 int block_spawn() {

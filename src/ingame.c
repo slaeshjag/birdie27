@@ -55,17 +55,21 @@ void ingame_loop() {
 	
 //	camera_work();
 	d_map_camera_move(s->active_level, 30, 0);
+	
 	for (i = 0; i < s->active_level->layers; i++) {
 		d_render_offset(0, 0);
 		d_render_tint(255, 255, 255, 255);
 //		d_render_tile_blit(s->active_level->layer[i].ts, 0, 0, 1);
 		d_tilemap_draw(s->active_level->layer[i].tilemap);
 		d_render_offset(30, 0);
-		movableLoopRender(i);
+		
 	}
-
 	for (i = 0; i < 16; i++)
 		tm_renderhack_context_render(s->tmrender[i], 0.f);
+	
+	for (i = 0; i < s->active_level->layers; i++) {
+		movableLoopRender(i);
+	}
 	
 	for(i = 0; i < PLAYER_CAP; i++) {
 		if(s->player[i].active) {

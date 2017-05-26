@@ -4,56 +4,10 @@
 #include "network/protocol.h"
 //#include "server/server.h"
 #include "util.h"
+#include "block.h"
 #include <limits.h>
 #include <stdbool.h>
 #include <stdint.h>
-
-
-static unsigned int tile_collision_lookup[256] = {
-	0,
-	0xF0000,
-	0xF0000,
-	0xF0000,
-	0xF0000,
-	0xF0000,
-	0xF0000,
-	0xF0000,
-	0xF0000,
-	0xF0000,
-	0xF0000,
-	0xF0000,
-	0xF0000,
-	0xF0000,
-	0xF0000,
-	0xF0000,
-	0xF0000,
-	0xF0000,
-	0xF0000,
-	0xF0000,
-	0xF0000,
-	0xF0000,
-	0xF0000,
-	0xF0000,
-	0xF0000,
-	0xF0000,
-	0xF0000,
-	0xF0000,
-	0xF0000,
-	0xF0000,
-	0xF0000,
-	0xF0000,
-	0xF0000,
-	0xF0000,
-	0xF0000,
-	0xF0000,
-	0xF0000,
-	0xF0000,
-	0xF0000,
-	0xF0000,
-	0xF0000,
-	0xF0000,
-};
-
 
 
 int movableInit() {
@@ -269,7 +223,7 @@ int movableMoveDoTest(int tower_index, int pos, int delta, int col, int hit_off,
 		i_2 = x + y * BLOCKLOGIC_AREA_WIDTH;
 	}
 
-	if (tile_collision_lookup[map_d[i]] & col || tile_collision_lookup[map_d[i_2]] & col) {
+	if (block_property[map_d[i]].collision_mask & col || block_property[map_d[i_2]].collision_mask & col) {
 		return 1;
 	}
 

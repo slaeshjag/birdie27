@@ -23,6 +23,7 @@ struct Block {
 	int mass;
 	int spawn_chance;
 	int tile;
+	unsigned int collision_mask;
 };
 
 extern Block block_property[];
