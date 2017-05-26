@@ -58,6 +58,10 @@ struct GameStateStruct {
 //	struct HealthbarStruct	healthbar;
 	struct PlayerState	player[PLAYER_CAP];
 	struct BlockLogicBlock	block[2]; // One per team for now
+	
+	uint8_t tower[16][BLOCKLOGIC_AREA_HEIGHT*BLOCKLOGIC_AREA_WIDTH];
+	int towers[2];
+	
 //	struct SoundeffectStruct sfx;
 	struct {
 				int x;
