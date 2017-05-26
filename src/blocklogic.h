@@ -16,6 +16,7 @@ struct BlockLogic {
 	int			blocks;
 };
 
+void blocklogic_copy_for_render();
 int blocklogic_find_place_site(int area, int x, int y, int direction, int block_w, int block_h, int *pos_x, int *pos_y);
 int block_place(int x, int y, int team, uint8_t block);
 void blocklogic_separate_all_towers();

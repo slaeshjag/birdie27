@@ -63,6 +63,9 @@ void ingame_loop() {
 		movableLoopRender(i);
 	}
 
+	for (i = 0; i < 16; i++)
+		tm_renderhack_context_render(s->tmrender[i], 0);
+
 //	healthbar_draw();
 	ingame_client_keyboard();
 }
@@ -156,8 +159,11 @@ void ingame_network_handler() {
 			
 			case PACKET_TYPE_BLOCK_PLACE:
 				s->block[pack.block_place.team].block[pack.block_place.y*BLOCKLOGIC_AREA_WIDTH + pack.block_place.x] = pack.block_place.block;
+				if (pack.block_place.block)
+					fprintf(stderr, "got data\n");
 				
 				blocklogic_separate_all_towers();
+				blocklogic_copy_for_render();
 				break;
 			
 			case PACKET_TYPE_SOUND:

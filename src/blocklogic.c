@@ -152,3 +152,12 @@ void trigger_weapons(DARNIT_TILEMAP *map, int team) {
 		}
 	}
 }
+
+
+void blocklogic_copy_for_render() {
+	int i;
+
+	for (i = 0; i < 16; i++) {
+		tm_renderhack_context_copy(s->tmrender[i], s->tower[i], 0, i>=8?1:0);
+	}
+}

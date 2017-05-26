@@ -58,6 +58,7 @@ struct TMRenderHackContext *tm_renderhack_context_new(DARNIT_TILEMAP *copy) {
 
 	tmrhc->tm = d_tilemap_new(0xFFF, ((RENDER_TILEMAP *) copy->render)->ts, 0xFFF, BLOCKLOGIC_AREA_WIDTH*2, BLOCKLOGIC_AREA_HEIGHT);
 	d_tilemap_camera_move(tmrhc->tm, 0, 0);
+	d_tilemap_recalc(tmrhc->tm);
 
 	return tmrhc;
 }
@@ -69,6 +70,8 @@ void tm_renderhack_context_copy(struct TMRenderHackContext *tmrhc, uint8_t *tile
 
 	for (j = 0; j < BLOCKLOGIC_AREA_HEIGHT; j++) {
 		for (i = 0; i < BLOCKLOGIC_AREA_WIDTH; i++) {
+			if (tiles[BLOCKLOGIC_AREA_WIDTH*j+i])
+				fprintf(stderr, "DATA!\n");
 			tmrhc->tm->data[j*BLOCKLOGIC_AREA_WIDTH + (BLOCKLOGIC_AREA_WIDTH - corner) + i] = tiles[BLOCKLOGIC_AREA_WIDTH*j+i];
 		}
 	}

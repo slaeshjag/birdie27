@@ -176,8 +176,8 @@ void ai_player(void *dummy, void *entry, MOVABLE_MSG msg) {
 				/*} else */if (blocklogic_find_place_site(area, ((self->x - 24000)%(384000))/1000/24, (self->y - 24000)/1000/24, s->player[player_id].last_walk_direction, 1, 1, &x, &y)) {
 					s->block[area].block[x + BLOCKLOGIC_AREA_WIDTH * y] = s->player[player_id].holding->direction;
 					block_place(x, y, area, s->player[player_id].holding->direction);
+
 					s->player[player_id].holding->direction = 0;
-					fprintf(stderr, "parking here\n");
 				} else {
 					fprintf(stderr, "can't park here\n");
 				}
