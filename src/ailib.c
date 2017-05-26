@@ -105,10 +105,6 @@ void ai_block(void *dummy, void *entry, MOVABLE_MSG msg) {
 	MOVABLE_ENTRY *self = entry;
 	int i;
 	
-	if (!s->is_host) {
-		return;
-	}
-
 	switch (msg) {
 		case MOVABLE_MSG_INIT:
 			self->hp = self->hp_max = 12;
