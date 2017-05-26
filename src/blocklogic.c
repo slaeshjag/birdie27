@@ -4,20 +4,29 @@
 #include "main.h"
 #include "blocklogic.h"
 
-static int _mark_and_copy(uint8_t *data_in, uint8_t *data_out, int w, int h, int x, int y, uint8_t from, uint8_t to) {
+int block_weight[] = {
+	100,
+};
+
+static int _mark_and_copy(uint8_t *data_in, uint8_t *data_out, int w, int h, int x, int y, uint8_t from, uint8_t to, int *center_of_gravity_x, int *center_of_gravity_y, int *mass_total) {
+	int mass = 100;
 	if(x < 0 || x >= w || y < 0 || y >= h)
 		return -1;
 	
-	if(data_in[y*w + x] != from)
+	if(data_in[y*w + x] == 0 || data_in[y*w + x] == to)
 		return -1;
 	
 	data_in[y*w + x] = to;
 	data_out[y*w + x] = from;
 	
-	_mark_and_copy(data_in, data_out, w, h, x+1, y, from, to);
-	_mark_and_copy(data_in, data_out, w, h, x-1, y, from, to);
-	_mark_and_copy(data_in, data_out, w, h, x, y+1, from, to);
-	_mark_and_copy(data_in, data_out, w, h, x, y-1, from, to);
+	_mark_and_copy(data_in, data_out, w, h, x + 1, y, from, to, center_of_gravity_x, center_of_gravity_y, mass_total);
+	_mark_and_copy(data_in, data_out, w, h, x - 1, y, from, to, center_of_gravity_x, center_of_gravity_y, mass_total);
+	_mark_and_copy(data_in, data_out, w, h, x, y + 1, from, to, center_of_gravity_x, center_of_gravity_y, mass_total);
+	_mark_and_copy(data_in, data_out, w, h, x, y - 1, from, to, center_of_gravity_x, center_of_gravity_y, mass_total);
+	
+	*mass_total += mass;
+	*center_of_gravity_x += x*mass;
+	*center_of_gravity_y += y*mass;
 	
 	return 0;
 }
@@ -108,7 +117,20 @@ static int _separate_towers(int area, uint8_t * separated_field) {
 	for(x = 0; x < BLOCKLOGIC_AREA_WIDTH; x++) {
 		uint8_t block = BLOCK(x, y);
 		if(block != 0 && block != 0xFF) {
-			_mark_and_copy(tempfield, separated_field + (fields * BLOCKLOGIC_AREA_WIDTH*BLOCKLOGIC_AREA_HEIGHT), BLOCKLOGIC_AREA_WIDTH, BLOCKLOGIC_AREA_HEIGHT, x, y, block, 0xFF);
+			int center_of_gravity_x = 0, center_of_gravity_y = 0;
+			int mass_total = 0;
+			
+			_mark_and_copy(tempfield, separated_field + (fields * BLOCKLOGIC_AREA_WIDTH*BLOCKLOGIC_AREA_HEIGHT), BLOCKLOGIC_AREA_WIDTH, BLOCKLOGIC_AREA_HEIGHT,
+				x, y, block, 0xFF, &center_of_gravity_x, &center_of_gravity_y, &mass_total);
+			
+			if(mass_total) {
+				center_of_gravity_x /= mass_total;
+				center_of_gravity_y /= mass_total;
+				
+				printf("center of gravity: (%i %i)\n", center_of_gravity_x, center_of_gravity_y);
+				s->center_of_gravity[fields].x = center_of_gravity_x;
+				s->center_of_gravity[fields].y = center_of_gravity_y;
+			}
 			
 			fields++;
 		}

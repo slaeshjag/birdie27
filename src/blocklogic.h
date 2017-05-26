@@ -14,6 +14,10 @@ struct BlockLogicBlock {
 struct BlockLogic {
 	struct BlockLogicBlock	*block;
 	int			blocks;
+	struct {
+		int x;
+		int y;
+	} center_of_gravity;
 };
 
 void blocklogic_copy_for_render();
