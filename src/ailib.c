@@ -106,7 +106,7 @@ void ai_block(void *dummy, void *entry, MOVABLE_MSG msg) {
 			self->x = 99999999; // Nobody should see us here... ///
 			self->y = 99999999;
 			self->gravity_effect = 0;
-			self->direction = BLOCK_TYPE_BUS;
+			self->direction = BLOCK_TYPE_CRATE;
 			break;
 		default:
 			break;
@@ -165,8 +165,13 @@ void ai_player(void *dummy, void *entry, MOVABLE_MSG msg) {
 				
 				ingame_keystate[player_id].jump = 0;
 				
-				if (!self->y_velocity)
-					self->y_velocity = -600;
+				if (!self->y_velocity) {
+					if(!s->player[player_id].holding->direction) {
+						self->y_velocity = -400;
+					} else {
+						self->y_velocity = -400 + block_property[s->player[player_id].holding->direction].mass/4;
+					}
+				}
 			}
 
 			if (ingame_keystate[player_id].action/* && !self->y_velocity*/) {
