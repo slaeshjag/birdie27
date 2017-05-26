@@ -103,6 +103,7 @@ void ai_block(void *dummy, void *entry, MOVABLE_MSG msg) {
 			self->x = 99999999; // Nobody should see us here... ///
 			self->y = 99999999;
 			self->gravity_effect = 0;
+			self->direction = 0;
 			break;
 		default:
 			break;
@@ -164,8 +165,8 @@ void ai_player(void *dummy, void *entry, MOVABLE_MSG msg) {
 					self->y_velocity = -600;
 			}
 
-			s->player[player_id].holding->x = self->x;
-			s->player[player_id].holding->y = self->y - 24000;
+			//s->player[player_id].holding->x = self->x;
+			//s->player[player_id].holding->y = self->y - 24000;
 
 			noinput:
 
