@@ -2,6 +2,7 @@
 #include "movable.h"
 #include "ingame.h"
 #include "main.h"
+#include "block.h"
 #include "trigonometry.h"
 #include "blocklogic.h"
 //#include "soundeffects.h"
@@ -105,7 +106,7 @@ void ai_block(void *dummy, void *entry, MOVABLE_MSG msg) {
 			self->x = 99999999; // Nobody should see us here... ///
 			self->y = 99999999;
 			self->gravity_effect = 0;
-			self->direction = 22;
+			self->direction = BLOCK_TYPE_BUS;
 			break;
 		default:
 			break;
