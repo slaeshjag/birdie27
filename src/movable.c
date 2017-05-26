@@ -6,6 +6,53 @@
 #include "util.h"
 #include <limits.h>
 #include <stdbool.h>
+#include <stdint.h>
+
+
+static unsigned int tile_collision_lookup[256] = {
+	0,
+	0xF0000,
+	0xF0000,
+	0xF0000,
+	0xF0000,
+	0xF0000,
+	0xF0000,
+	0xF0000,
+	0xF0000,
+	0xF0000,
+	0xF0000,
+	0xF0000,
+	0xF0000,
+	0xF0000,
+	0xF0000,
+	0xF0000,
+	0xF0000,
+	0xF0000,
+	0xF0000,
+	0xF0000,
+	0xF0000,
+	0xF0000,
+	0xF0000,
+	0xF0000,
+	0xF0000,
+	0xF0000,
+	0xF0000,
+	0xF0000,
+	0xF0000,
+	0xF0000,
+	0xF0000,
+	0xF0000,
+	0xF0000,
+	0xF0000,
+	0xF0000,
+	0xF0000,
+	0xF0000,
+	0xF0000,
+	0xF0000,
+	0xF0000,
+	0xF0000,
+	0xF0000,
+};
 
 
 
@@ -164,6 +211,84 @@ void movableRespawn() {
 }
 
 
+// Returns 1 on collision
+int movableMoveDoTest(int tower_index, int pos, int delta, int col, int hit_off, int i, int i_b) {
+	int u, t, tile_w, tile_h, map_w, i_2;
+	uint8_t *map_d;
+	tile_w = 24;
+	tile_h = 24;
+	map_w = 64;
+	map_d = s->tower[tower_index];
+
+	if (!(delta))
+		return 0;
+
+	u = (pos) / 1000 + hit_off;
+	t = u + (((delta) > 0) ? 1 : -1);
+
+	if (i < 0) {
+		u /= tile_h;
+		t /= tile_h;
+	} else {
+		u /= tile_w;
+		t /= tile_w;
+	}
+
+	if (u == t) {
+		return 0;
+	}
+
+	i_2 = (i < 0) ? t * map_w + (abs(i) + i_b) / tile_w : ((i + i_b) / tile_h) * map_w + t;
+	i = (i < 0) ? t * map_w + abs(i) / tile_w : (i / tile_h) * map_w + t;
+
+	{
+		/* Re-write the coordinates... */
+		int x, y;
+		x = i & 0x3F;
+		y = i >> 6;
+		x -= 1;
+		y -= 1;
+		if (tower_index >= 8)
+			x -= 16;
+		if (x < 0 || x >= BLOCKLOGIC_AREA_WIDTH)
+			return 0;
+		if (y < 0 || y >= BLOCKLOGIC_AREA_HEIGHT)
+			return 0;
+		i = x + y * BLOCKLOGIC_AREA_WIDTH;
+
+		x = i_2 & 0x3F;
+		y = i_2 >> 6;
+		x -= 1;
+		y -= 1;
+		if (tower_index >= 8)
+			x -= 16;
+		if (x < 0 || x >= BLOCKLOGIC_AREA_WIDTH)
+			return 0;
+		if (y < 0 || y >= BLOCKLOGIC_AREA_HEIGHT)
+			return 0;
+		i_2 = x + y * BLOCKLOGIC_AREA_WIDTH;
+	}
+
+	if (tile_collision_lookup[map_d[i]] & col || tile_collision_lookup[map_d[i_2]] & col) {
+		return 1;
+	}
+
+	return 0;
+}
+
+
+int movableMoveDoTestTowers(int pos, int delta, int vel, int col, int hit_off, int i, int i_b) {
+	int k;
+	int coll = 0;
+
+	for (k = 0; k < s->towers[0]; k++)
+		coll |= movableMoveDoTest(k, pos, delta, col, hit_off, i, i_b);
+	for (k = 0; k < s->towers[1]; k++)
+		coll |= movableMoveDoTest(k, pos, delta, col, hit_off, i, i_b);
+	return coll;
+}
+
+
 void movableMoveDo(DARNIT_MAP_LAYER *layer, int *pos, int *delta, int *vel, int space, int col, int hit_off, int vel_r, int i, int i_b) {
 	int u, t, tile_w, tile_h, map_w, i_2;
 	unsigned int *map_d;
@@ -257,11 +382,21 @@ int movableGravity(MOVABLE_ENTRY *entry) {
 
 			if (delta_x > 0) {
 				r = 1000 - r;
+				if (movableMoveDoTestTowers(entry->x, delta_x, entry->x_velocity, COLLISION_LEFT, hit_x + hit_w, entry->y / 1000 + hit_y, hit_h)) {
+					entry->x_velocity = 0, delta_x = 0;
+					continue;
+				}
+
 				movableMoveDo(layer, &entry->x, &delta_x, &entry->x_velocity, r, COLLISION_LEFT, hit_x + hit_w, 0, entry->y / 1000 + hit_y, hit_h);
 			} else {
 				if (!r)
 					r = 1000;
 				r *= -1;
+				if (movableMoveDoTestTowers(entry->x, delta_x, entry->x_velocity, COLLISION_RIGHT, hit_x, entry->y / 1000 + hit_y, hit_h)) {
+					entry->x_velocity = 0, delta_x = 0;
+					continue;
+				}
+
 				movableMoveDo(layer, &entry->x, &delta_x, &entry->x_velocity, r, COLLISION_RIGHT, hit_x, 0, entry->y / 1000 + hit_y, hit_h);
 			}
 		} else {	/* delta_y måste vara != 0 */
@@ -277,11 +412,19 @@ int movableGravity(MOVABLE_ENTRY *entry) {
 
 			if (delta_y > 0) {
 				r = 1000 - r;
+				if (movableMoveDoTestTowers(entry->y, delta_y, entry->y_velocity, COLLISION_TOP, hit_y + hit_h, entry->x / -1000 - hit_x, hit_w)) {
+					entry->y_velocity = 0, delta_y = 0;
+					continue;
+				}
 				movableMoveDo(layer, &entry->y, &delta_y, &entry->y_velocity, r, COLLISION_TOP, hit_y + hit_h, 0, entry->x / -1000 - hit_x, hit_w);
 			} else {
 				if (!r)
 					r = 1000;
 				r *= -1;
+				if (movableMoveDoTestTowers(entry->y, delta_y, entry->y_velocity, COLLISION_BOTTOM, hit_y, entry->x / -1000 - hit_x, hit_w)) {
+					entry->y_velocity = -1, delta_y = 0;
+					continue;
+				}
 				movableMoveDo(layer, &entry->y, &delta_y, &entry->y_velocity, r, COLLISION_BOTTOM, hit_y, -1, entry->x / -1000 - hit_x, hit_w);
 			}
 		}

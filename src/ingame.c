@@ -2,6 +2,7 @@
 #include "ingame.h"
 #include "blocklogic.h"
 #include "network/protocol.h"
+#include "tmrender_hack.h"
 #include <stdbool.h>
 #include <string.h>
 #include "network/network.h"
@@ -64,7 +65,7 @@ void ingame_loop() {
 	}
 
 	for (i = 0; i < 16; i++)
-		tm_renderhack_context_render(s->tmrender[i], 0);
+		tm_renderhack_context_render(s->tmrender[i], 0.f);
 
 //	healthbar_draw();
 	ingame_client_keyboard();
@@ -159,9 +160,7 @@ void ingame_network_handler() {
 			
 			case PACKET_TYPE_BLOCK_PLACE:
 				s->block[pack.block_place.team].block[pack.block_place.y*BLOCKLOGIC_AREA_WIDTH + pack.block_place.x] = pack.block_place.block;
-				if (pack.block_place.block)
-					fprintf(stderr, "got data\n");
-				
+				fprintf(stderr, "Got block at %i %i\n", pack.block_place.x, pack.block_place.y);
 				blocklogic_separate_all_towers();
 				blocklogic_copy_for_render();
 				break;
