@@ -59,8 +59,10 @@ int blocklogic_find_place_site(int area, int x, int y, int direction, int block_
 		return 0;
 	if (y + 1 >= BLOCKLOGIC_AREA_HEIGHT)
 		goto high;
-	if (blocklogic_area_clear(area, x, y, block_w, block_h))
+	if (blocklogic_area_clear(area, x, y, block_w, block_h)) {
 		*pos_x = x, *pos_y = y + 1;
+		return 1;
+	}
 high:
 	if (y - block_h < 0)
 		return 0;
