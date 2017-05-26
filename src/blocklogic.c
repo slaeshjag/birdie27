@@ -48,7 +48,7 @@ int blocklogic_area_clear(int area, int x, int y, int w, int h) {
 
 	for (i = 0; i < h; i++)
 		for (j = 0; j < w; j++)
-			if (s->block[area].block[i*BLOCKLOGIC_AREA_WIDTH+j])
+			if (s->block[area].block[(y+i)*BLOCKLOGIC_AREA_WIDTH+(x+j)])
 				return 0;
 	return 1;
 }
@@ -60,7 +60,7 @@ int blocklogic_find_place_site(int area, int x, int y, int direction, int block_
 		x += 1;
 	} else
 		x -= block_w;
-	if (x + block_w >= BLOCKLOGIC_AREA_WIDTH)
+	if (x + block_w > BLOCKLOGIC_AREA_WIDTH)
 		return 0;
 	if (x < 0)
 		return 0;
@@ -68,7 +68,7 @@ int blocklogic_find_place_site(int area, int x, int y, int direction, int block_
 		return 0;
 	if (y + 1 >= BLOCKLOGIC_AREA_HEIGHT)
 		goto high;
-	if (blocklogic_area_clear(area, x, y, block_w, block_h)) {
+	if (blocklogic_area_clear(area, x, y+1, block_w, block_h)) {
 		*pos_x = x, *pos_y = y + 1;
 		return 1;
 	}
@@ -77,8 +77,12 @@ high:
 		return 0;
 	if (y >= BLOCKLOGIC_AREA_HEIGHT)
 		return 0;
-	*pos_x = x, *pos_y = y;
-	return 1;
+	
+	if (blocklogic_area_clear(area, x, y, block_w, block_h)) {
+		*pos_x = x, *pos_y = y;
+		return 1;
+	}
+	return 0;
 }
 
 #define BLOCK(x, y) (s->block[area].block[(y)*BLOCKLOGIC_AREA_WIDTH + (x)])

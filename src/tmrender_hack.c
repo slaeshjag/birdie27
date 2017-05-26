@@ -6,6 +6,7 @@
 #include "darnit_tile_format.h"
 #include "darnit_tilesheet.h"
 #include "blocklogic.h"
+#include "trigonometry.h"
 #include "block.h"
 
 #define	SPRITE_ENTRY void
@@ -41,7 +42,7 @@ typedef struct {
 
 
 void renderCache(TILE_CACHE *cache, TILESHEET *ts, int tiles);
-int renderTilemapRecalcHack(TILE_CACHE *cache, TILESHEET *ts, int x, int y, int w, int h, int map_w, int map_h, unsigned int *tilemap, int inv_div, unsigned int mask);
+int renderTilemapRecalcHack(TILE_CACHE *cache, TILESHEET *ts, int x, int y, int w, int h, int map_w, int map_h, unsigned int *tilemap, int inv_div, unsigned int mask, float rotate, int corner);
 
 void renderTilemapRenderHack(RENDER_TILEMAP *tm, float rotation, int offset_x) {
 	glPushMatrix();
@@ -59,29 +60,30 @@ void renderTilemapRenderHack(RENDER_TILEMAP *tm, float rotation, int offset_x) {
 struct TMRenderHackContext *tm_renderhack_context_new(DARNIT_TILEMAP *copy) {
 	struct TMRenderHackContext *tmrhc = malloc(sizeof(*tmrhc));
 
-	tmrhc->tm = d_tilemap_new(0xFFF, ((RENDER_TILEMAP *) copy->render)->ts, 0xFFF, BLOCKLOGIC_AREA_WIDTH*2, BLOCKLOGIC_AREA_HEIGHT);
+	tmrhc->tm = d_tilemap_new(0xFFF, ((RENDER_TILEMAP *) copy->render)->ts, 0xFFF, BLOCKLOGIC_AREA_WIDTH, BLOCKLOGIC_AREA_HEIGHT);
 	d_tilemap_camera_move(tmrhc->tm, 0, 0);
 	RENDER_TILEMAP *tm = tmrhc->tm->render;
-	tm->cache_used = renderTilemapRecalcHack(tm->cache, tm->ts, tm->cam_xi, tm->cam_yi, tm->w, tm->h, tm->map_w, tm->map_h, tm->map, tm->inv_div, tm->mask);
+	tm->cache_used = renderTilemapRecalcHack(tm->cache, tm->ts, tm->cam_xi, tm->cam_yi, tm->w, tm->h, tm->map_w, tm->map_h, tm->map, tm->inv_div, tm->mask, 0., 0);
 	//d_tilemap_recalc(tmrhc->tm);
 
 	return tmrhc;
 }
 
 
-void tm_renderhack_context_copy(struct TMRenderHackContext *tmrhc, uint8_t *tiles, int corner, int area) {
+void tm_renderhack_context_copy(struct TMRenderHackContext *tmrhc, uint8_t *tiles, int corner, int area, float rotate) {
 	RENDER_TILEMAP *tm = tmrhc->tm->render;
 	memset(tmrhc->tm->data, 0, tmrhc->tm->w * tmrhc->tm->h * 4);
 	int i, j;
 
 	for (j = 0; j < BLOCKLOGIC_AREA_HEIGHT; j++) {
 		for (i = 0; i < BLOCKLOGIC_AREA_WIDTH; i++) {
-			tmrhc->tm->data[j*BLOCKLOGIC_AREA_WIDTH*2 + (BLOCKLOGIC_AREA_WIDTH - corner) + i] = block_property[tiles[BLOCKLOGIC_AREA_WIDTH*j+i]].tile;
+			tmrhc->tm->data[j*BLOCKLOGIC_AREA_WIDTH + i] = block_property[tiles[BLOCKLOGIC_AREA_WIDTH*j+i]].tile;
 		}
 	}
 
-	tm->cache_used = renderTilemapRecalcHack(tm->cache, tm->ts, BLOCKLOGIC_AREA_WIDTH - corner, tm->cam_yi, tm->w, tm->h, tm->map_w, tm->map_h, tm->map, tm->inv_div, tm->mask);
-	tmrhc->offset = corner*24-BLOCKLOGIC_AREA_WIDTH*24-24+(area*24*BLOCKLOGIC_AREA_WIDTH);
+	tm->cache_used = renderTilemapRecalcHack(tm->cache, tm->ts, 0, tm->cam_yi, tm->w, tm->h, tm->map_w, tm->map_h, tm->map, tm->inv_div, tm->mask, rotate, corner);
+	tmrhc->offset = corner*24 -8 + area*(BLOCKLOGIC_AREA_WIDTH+2)*24;
+	//tmrhc->offset = corner*24-BLOCKLOGIC_AREA_WIDTH*24-24+(area*24*BLOCKLOGIC_AREA_WIDTH);
 }
 
 
@@ -89,14 +91,14 @@ void tm_renderhack_context_render(struct TMRenderHackContext *tmrhc, float angle
 	renderTilemapRenderHack(tmrhc->tm->render, angle, tmrhc->offset);
 }
 
-int renderTilemapRecalcHack(TILE_CACHE *cache, TILESHEET *ts, int x, int y, int w, int h, int map_w, int map_h, unsigned int *tilemap, int inv_div, unsigned int mask) {
+int renderTilemapRecalcHack(TILE_CACHE *cache, TILESHEET *ts, int x, int y, int w, int h, int map_w, int map_h, unsigned int *tilemap, int inv_div, unsigned int mask, float rotate, int corner) {
 	float x_start, y_start;
 	float *x_adv_buf, *y_adv_buf;
-	int i, j, k, t, x_cur, y_cur;
+	int i, j, k, l, t, x_cur, y_cur;
 
 	x_adv_buf = malloc(sizeof(float) * (w + 1));
 	y_adv_buf = malloc(sizeof(float) * (h + 1));
-	x_start = 0.0f;
+	x_start = -1.0f;
 	y_start = 0.0f;
 
 	for (i = 0; i < (w + 1); i++)
@@ -142,6 +144,9 @@ int renderTilemapRecalcHack(TILE_CACHE *cache, TILESHEET *ts, int x, int y, int 
 			cache[k].vertex[4].tex.v = ts->tile[t].v;
 			cache[k].vertex[5].tex.u = ts->tile[t].r;
 			cache[k].vertex[5].tex.v = ts->tile[t].s;
+			for (l = 0; l < 5; l++) {
+
+			}
 			k++;
 		}
 	}

@@ -10,7 +10,7 @@ struct TMRenderHackContext {
 };
 
 struct TMRenderHackContext *tm_renderhack_context_new(DARNIT_TILEMAP *copy);
-void tm_renderhack_context_copy(struct TMRenderHackContext *tmrhc, uint8_t *tiles, int corner, int area);
+void tm_renderhack_context_copy(struct TMRenderHackContext *tmrhc, uint8_t *tiles, int corner, int area, float rotate);
 void tm_renderhack_context_render(struct TMRenderHackContext *tmrhc, float angle);
 
 #endif
