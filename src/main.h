@@ -49,6 +49,13 @@ extern char player_name[];
 extern int server_sock;
 extern char *team_name[];
 
+
+struct PlayerTimer {
+	uint32_t		team1;
+	uint32_t		team2;
+};
+
+
 struct GameStateStruct {
 	int	player_id;
 	bool is_host;
@@ -57,6 +64,7 @@ struct GameStateStruct {
 //	BULLET			bullet;
 //	struct HealthbarStruct	healthbar;
 	struct PlayerState	player[PLAYER_CAP];
+	struct PlayerTimer	timer;
 	struct BlockLogicBlock	block[2]; // One per team for now
 
 	struct TMRenderHackContext *tmrender[16];

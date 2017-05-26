@@ -50,8 +50,10 @@ void ingame_loop() {
 	
 	movableLoop();
 	
-	if(s->is_host)
+	if(s->is_host) {
 		server_kick();
+
+	}
 	
 //	camera_work();
 	d_map_camera_move(s->active_level, 30, 0);

@@ -204,3 +204,15 @@ void blocklogic_copy_for_render() {
 		tm_renderhack_context_copy(s->tmrender[i], s->tower[i], 0, i>=8?1:0, 0);
 	}
 }
+
+
+int blocklogic_tower_size(int team) {
+	int i, q = 0;
+
+	for (i = 0; i < BLOCKLOGIC_AREA_WIDTH*BLOCKLOGIC_AREA_HEIGHT; i++) {
+		if (s->block[team].block[i])
+			break;
+	}
+	
+	return BLOCKLOGIC_AREA_HEIGHT - i / BLOCKLOGIC_AREA_WIDTH;
+}
