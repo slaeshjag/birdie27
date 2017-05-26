@@ -284,7 +284,7 @@ int movableMoveDoTestTowers(int pos, int delta, int vel, int col, int hit_off, i
 	for (k = 0; k < s->towers[0]; k++)
 		coll |= movableMoveDoTest(k, pos, delta, col, hit_off, i, i_b);
 	for (k = 0; k < s->towers[1]; k++)
-		coll |= movableMoveDoTest(k, pos, delta, col, hit_off, i+8, i_b);
+		coll |= movableMoveDoTest(k+8, pos, delta, col, hit_off, i, i_b);
 	return coll;
 }
 
