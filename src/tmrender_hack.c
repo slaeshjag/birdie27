@@ -6,6 +6,7 @@
 #include "darnit_tile_format.h"
 #include "darnit_tilesheet.h"
 #include "blocklogic.h"
+#include "block.h"
 
 #define	SPRITE_ENTRY void
 
@@ -75,7 +76,7 @@ void tm_renderhack_context_copy(struct TMRenderHackContext *tmrhc, uint8_t *tile
 
 	for (j = 0; j < BLOCKLOGIC_AREA_HEIGHT; j++) {
 		for (i = 0; i < BLOCKLOGIC_AREA_WIDTH; i++) {
-			tmrhc->tm->data[j*BLOCKLOGIC_AREA_WIDTH*2 + (BLOCKLOGIC_AREA_WIDTH - corner) + i] = tiles[BLOCKLOGIC_AREA_WIDTH*j+i];
+			tmrhc->tm->data[j*BLOCKLOGIC_AREA_WIDTH*2 + (BLOCKLOGIC_AREA_WIDTH - corner) + i] = block_property[tiles[BLOCKLOGIC_AREA_WIDTH*j+i]].tile;
 		}
 	}
 

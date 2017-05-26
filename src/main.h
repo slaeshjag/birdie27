@@ -63,6 +63,10 @@ struct GameStateStruct {
 	
 	uint8_t tower[16][BLOCKLOGIC_AREA_HEIGHT*BLOCKLOGIC_AREA_WIDTH];
 	int towers[2];
+	struct {
+		int x;
+		int y;
+	} center_of_gravity[16];
 	
 //	struct SoundeffectStruct sfx;
 	struct {

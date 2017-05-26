@@ -91,6 +91,7 @@ void server_handle_client(ClientList *cli) {
 				for(tmp = client; tmp; tmp = tmp->next) {
 					protocol_send_packet(tmp->sock, &response);
 				}
+				break;
 			default:
 				fprintf(stderr, "wat %i\n", pack.type);
 				break;
