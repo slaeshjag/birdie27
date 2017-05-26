@@ -11,6 +11,19 @@
 #include <math.h>
 
 
+
+int _get_block_from_entry(MOVABLE_ENTRY *self) {
+	const char *playerid_str = d_map_prop(s->active_level->object[self->id].ref, "player_id");
+	int i;
+
+	for (i = 0; i < s->active_level->objects; i++)
+		if (!strcmp(playerid_str, d_map_prop(s->active_level->object[i].ref, "block_id")))
+			return i;
+	fprintf(stderr, "bad block\n");
+	return -1;
+}
+
+
 int _get_player_id(MOVABLE_ENTRY *self) {
 	/* On a scale of 1 to italy, how inefficient is this? */
 	const char *playerid_str;
@@ -72,6 +85,31 @@ static int _player_fix_hitbox(MOVABLE_ENTRY *self) {
 }
 
 
+static void _reset_block(MOVABLE_ENTRY *me) {
+	
+}
+
+
+void ai_block(void *dummy, void *entry, MOVABLE_MSG msg) {
+	MOVABLE_ENTRY *self = entry;
+	
+	if (!s->is_host) {
+		return;
+	}
+
+	switch (msg) {
+		case MOVABLE_MSG_INIT:
+			self->hp = self->hp_max = 12;
+			self->x = 99999999; // Nobody should see us here... ///
+			self->y = 99999999;
+			self->gravity_effect = 0;
+			break;
+		default:
+			break;
+	}
+}
+
+
 void ai_player(void *dummy, void *entry, MOVABLE_MSG msg) {
 	MOVABLE_ENTRY *self = entry;
 	int player_id;
@@ -94,11 +132,10 @@ void ai_player(void *dummy, void *entry, MOVABLE_MSG msg) {
 			player_id = _get_player_id(self);
 			//if (_player_fix_hitbox(self))
 			//	break;
-			fprintf(stderr, "%i %i\n", player_id, ingame_keystate[0].left);
 			if (self->flag) {
 				if (player_id >= 0) {
 					s->player[player_id].last_walk_direction = 0;
-					s->player[player_id].holding = NULL;
+					s->player[player_id].holding = &s->movable.movable[_get_block_from_entry(self)];
 					s->player[player_id].pulling = 0;
 				}
 				self->flag = 0;
@@ -127,6 +164,8 @@ void ai_player(void *dummy, void *entry, MOVABLE_MSG msg) {
 					self->y_velocity = -600;
 			}
 
+			s->player[player_id].holding->x = self->x;
+			s->player[player_id].holding->y = self->y - 24000;
 
 			noinput:
 
@@ -144,6 +183,7 @@ void ai_player(void *dummy, void *entry, MOVABLE_MSG msg) {
 
 static struct AILibEntry ailib[] = {
 	{ "player", ai_player },
+	{ "block", ai_block },
 	{ NULL, NULL }
 };
 
