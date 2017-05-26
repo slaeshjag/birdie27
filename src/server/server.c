@@ -78,6 +78,7 @@ void server_handle_client(ClientList *cli) {
 				HANDLE_KEY(right);
 				HANDLE_KEY(jump);
 				HANDLE_KEY(action);
+				HANDLE_KEY(suicide);
 				break;
 			
 			case PACKET_TYPE_BLOCK_PLACE:

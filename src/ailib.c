@@ -92,9 +92,18 @@ static void _reset_block(MOVABLE_ENTRY *me) {
 	
 }
 
+static void _die(MOVABLE_ENTRY *self, int player_id) {
+	self->x_velocity = self->y_velocity = 0;
+	
+	self->x = s->active_level->object[self->id].x*1000*24;
+	self->y = s->active_level->object[self->id].y*1000*24;
+					
+	s->player[player_id].holding->direction = block_spawn();
+}
 
 void ai_block(void *dummy, void *entry, MOVABLE_MSG msg) {
 	MOVABLE_ENTRY *self = entry;
+	int i;
 	
 	if (!s->is_host) {
 		return;
@@ -107,6 +116,10 @@ void ai_block(void *dummy, void *entry, MOVABLE_MSG msg) {
 			self->y = 99999999;
 			self->gravity_effect = 0;
 			self->direction = BLOCK_TYPE_CRATE;
+			
+			for(i = 0; i < BLOCK_TYPE_BLOCKS; i++)
+				d_sprite_frame_entry_set(self->sprite, i, 0, block_property[i].tile, 200);
+			
 			break;
 		default:
 			break;
@@ -150,13 +163,7 @@ void ai_player(void *dummy, void *entry, MOVABLE_MSG msg) {
 			}
 			
 			if(self->y_velocity == 0 && s->player[player_id].velocity_y_old > DEATH_VELOCITY) {
-				self->x_velocity = self->y_velocity = 0;
-				int i;
-				
-				self->x = s->active_level->object[self->id].x*1000*24;
-				self->y = s->active_level->object[self->id].y*1000*24;
-								
-				s->player[player_id].holding->direction = block_spawn();
+				_die(self, player_id);
 			}
 			s->player[player_id].velocity_y_old = self->y_velocity;
 			
@@ -185,7 +192,7 @@ void ai_player(void *dummy, void *entry, MOVABLE_MSG msg) {
 				}
 			}
 
-			if (ingame_keystate[player_id].action/* && !self->y_velocity*/) {
+			if (ingame_keystate[player_id].action && !self->y_velocity) {
 				int x, y, area;
 				area = self->x < 432000?0:1;
 				if (!s->player[player_id].holding->direction) {
@@ -199,7 +206,11 @@ void ai_player(void *dummy, void *entry, MOVABLE_MSG msg) {
 					fprintf(stderr, "can't park here\n");
 				}
 			}
-
+			
+			if (ingame_keystate[player_id].suicide) {
+				_die(self, player_id);
+			}
+			
 			s->player[player_id].holding->x = self->x;
 			s->player[player_id].holding->y = self->y - 24000;
 
