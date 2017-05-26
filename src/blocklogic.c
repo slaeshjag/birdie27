@@ -3,18 +3,17 @@
 #include "network/protocol.h"
 #include "main.h"
 #include "blocklogic.h"
-
-int block_weight[] = {
-	100,
-};
+#include "block.h"
 
 static int _mark_and_copy(uint8_t *data_in, uint8_t *data_out, int w, int h, int x, int y, uint8_t from, uint8_t to, int *center_of_gravity_x, int *center_of_gravity_y, int *mass_total) {
-	int mass = 100;
+	int mass;
 	if(x < 0 || x >= w || y < 0 || y >= h)
 		return -1;
 	
 	if(data_in[y*w + x] == 0 || data_in[y*w + x] == to)
 		return -1;
+	
+	mass = block_property[data_in[y*w + x]].mass;
 	
 	data_in[y*w + x] = to;
 	data_out[y*w + x] = from;

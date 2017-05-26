@@ -18,7 +18,7 @@ enum BlockType {
 
 typedef struct Block Block;
 struct Block {
-	int weight;
+	int mass;
 	int spawn_chance;
 	int tile;
 };
