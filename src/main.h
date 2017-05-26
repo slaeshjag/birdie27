@@ -57,7 +57,7 @@ struct GameStateStruct {
 //	BULLET			bullet;
 //	struct HealthbarStruct	healthbar;
 	struct PlayerState	player[PLAYER_CAP];
-	struct BlockLogic	block[2]; // One per team for now
+	struct BlockLogicBlock	block[2]; // One per team for now
 //	struct SoundeffectStruct sfx;
 	struct {
 				int x;
