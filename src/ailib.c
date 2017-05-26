@@ -235,6 +235,13 @@ void ai_player(void *dummy, void *entry, MOVABLE_MSG msg) {
 			s->player[player_id].holding->y = self->y - 24000;
 
 			noinput:
+			
+			if (movableTileCollision(self, 0, 0) & COLLISION_KILL ||
+			    movableTileCollision(self, 0, -2) & COLLISION_KILL ||
+			    movableTileCollision(self, -2, 0) & COLLISION_KILL ||
+			    movableTileCollision(self, -2, -2) & COLLISION_KILL)
+				_die(self, player_id);
+				
 
 			self->direction = _player_direction(self);
 			break;
