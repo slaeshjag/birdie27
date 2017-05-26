@@ -91,6 +91,7 @@ void gameroom_network_handler() {
 				
 				for(i = 0; i < v.i; i++) {
 					if(atoi(muil_listbox_get(gameroom.list, i)) == pack.join.id) {
+						s->player[pack.join.id].team = pack.join.team;
 						asprintf(&tmp, "%i: %s [Team %s]", pack.join.id, pack.join.name, team_name[pack.join.team]);
 						muil_listbox_set(gameroom.list, i, tmp);
 						free(tmp);
@@ -99,6 +100,7 @@ void gameroom_network_handler() {
 				}
 				
 			} else {
+				s->player[pack.join.id].team = pack.join.team;
 				asprintf(&tmp, "%i: %s [Team %s]", pack.join.id, pack.join.name, team_name[pack.join.team]);
 				muil_listbox_add(gameroom.list, tmp);
 				free(tmp);
