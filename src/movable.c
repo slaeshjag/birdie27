@@ -249,7 +249,7 @@ int movableMoveDoTest(int tower_index, int pos, int delta, int col, int hit_off,
 		x -= 1;
 		y -= 1;
 		if (tower_index >= 8)
-			x -= 16;
+			x -= 18;
 		if (x < 0 || x >= BLOCKLOGIC_AREA_WIDTH)
 			return 0;
 		if (y < 0 || y >= BLOCKLOGIC_AREA_HEIGHT)
@@ -261,7 +261,7 @@ int movableMoveDoTest(int tower_index, int pos, int delta, int col, int hit_off,
 		x -= 1;
 		y -= 1;
 		if (tower_index >= 8)
-			x -= 16;
+			x -= 18;
 		if (x < 0 || x >= BLOCKLOGIC_AREA_WIDTH)
 			return 0;
 		if (y < 0 || y >= BLOCKLOGIC_AREA_HEIGHT)

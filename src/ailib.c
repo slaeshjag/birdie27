@@ -117,10 +117,6 @@ void ai_block(void *dummy, void *entry, MOVABLE_MSG msg) {
 	MOVABLE_ENTRY *self = entry;
 	int i;
 	
-	if (!s->is_host) {
-		return;
-	}
-
 	switch (msg) {
 		case MOVABLE_MSG_INIT:
 			self->hp = self->hp_max = 12;
@@ -205,11 +201,23 @@ void ai_player(void *dummy, void *entry, MOVABLE_MSG msg) {
 			}
 
 			if (ingame_keystate[player_id].action && !self->y_velocity) {
-				int x, y, area;
+				int x, y, area, tx, ty, tmx, tmy;
 				area = self->x < 432000?0:1;
+				tmx = (self->x - 24000)/1000%24;
+				tmy = (self->y - 24000)/1000%24;
+				tx = (self->x - 24000)/1000/24;
+				ty = (self->y - 24000)/1000/24;
+				if (tx>16)
+					tx -= 18;
+				if (!s->player[player_id].last_walk_direction)
+					tx--;
+				else if (tmx == 0)
+					tx++;
+				else
+					tx += 2;
 				if (!s->player[player_id].holding->direction) {
 					fprintf(stderr, "Nothing to park here\n");
-				} else if (blocklogic_find_place_site(area, ((self->x - 24000)%(384000))/1000/24, (self->y - 24000)/1000/24, s->player[player_id].last_walk_direction, 1, 1, &x, &y)) {
+				} else if (blocklogic_find_place_site(area, tx, ty, s->player[player_id].last_walk_direction, 1, 1, &x, &y)) {
 					s->block[area].block[x + BLOCKLOGIC_AREA_WIDTH * y] = s->player[player_id].holding->direction;
 					block_place(x, y, area, s->player[player_id].holding->direction);
 
