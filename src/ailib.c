@@ -236,10 +236,10 @@ void ai_player(void *dummy, void *entry, MOVABLE_MSG msg) {
 
 			noinput:
 			
-			if (movableTileCollision(self, 0, 0) & COLLISION_KILL ||
+			if (movableTileCollision(self, 2, 0) & COLLISION_KILL ||
 			    movableTileCollision(self, 0, -2) & COLLISION_KILL ||
 			    movableTileCollision(self, -2, 0) & COLLISION_KILL ||
-			    movableTileCollision(self, -2, -2) & COLLISION_KILL)
+			    movableTileCollision(self, 0, 2) & COLLISION_KILL)
 				_die(self, player_id);
 				
 
