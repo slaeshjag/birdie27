@@ -263,11 +263,21 @@ int network_poll_tcp(int sock) {
 }
 
 int network_send_tcp(int sock, char *buf, int buflen) {
-	return send(sock, buf, buflen, 0);
+	int ret = 0;
+	do {
+		ret += send(sock, buf + ret, buflen - ret, 0);
+	} while(ret != buflen);
+	
+	return ret;
 }
 
 int network_recv_tcp(int sock, char *buf, int buflen) {
-	return recv(sock, buf, buflen, 0);
+	int ret = 0;
+	do {
+		ret += recv(sock, buf + ret, buflen - ret, 0);
+	} while(ret != buflen);
+	
+	return ret;
 }
 
 void network_close_tcp(int sock) {
