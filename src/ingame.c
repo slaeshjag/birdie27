@@ -9,6 +9,8 @@
 #include "network/protocol.h"
 #include "server/server.h"
 #include "main.h"
+#include "block.h"
+#include "sfx.h"
 #include "util.h"
 
 InGameKeyStateEntry ingame_keystate[PLAYER_CAP];
@@ -94,6 +96,9 @@ void ingame_loop() {
 			d_particle_draw(s->player[i].blood);
 		}
 	}
+	
+	for(i = 0; i < 3; i++)
+		d_particle_draw(s->explosion[i]);
 	
 	d_render_offset(0, 0);
 	ingame_timer_blit(TIMER_COUNTDOWN_WIN - s->timer.team1/1000, s->timer.advantage == 1 ? 1 : 0, 0);
@@ -198,14 +203,46 @@ void ingame_network_handler() {
 				break;
 			
 			case PACKET_TYPE_BLOCK_PLACE:
+				switch(pack.block_place.block) {
+					case BLOCK_TYPE_COW:
+						sfx_play(SFX_COW);
+						break;
+					case BLOCK_TYPE_BUS:
+						sfx_play(SFX_CAR);
+						break;
+				}
+				
 				s->block[pack.block_place.team].block[pack.block_place.y*BLOCKLOGIC_AREA_WIDTH + pack.block_place.x] = pack.block_place.block;
 				blocklogic_separate_all_towers();
 				blocklogic_copy_for_render();
 				break;
 			
+			case PACKET_TYPE_EXPLOSION:
+				s->block[pack.explosion.team].block[pack.explosion.y*BLOCKLOGIC_AREA_WIDTH + pack.explosion.x] = 0;
+				if(pack.explosion.x < BLOCKLOGIC_AREA_WIDTH - 1)
+					s->block[pack.explosion.team].block[pack.explosion.y*BLOCKLOGIC_AREA_WIDTH + pack.explosion.x + 1] = 0;
+				if(pack.explosion.x > 0)
+					s->block[pack.explosion.team].block[pack.explosion.y*BLOCKLOGIC_AREA_WIDTH + pack.explosion.x - 1] = 0;
+				if(pack.explosion.y < BLOCKLOGIC_AREA_HEIGHT - 1)
+					s->block[pack.explosion.team].block[(pack.explosion.y + 1)*BLOCKLOGIC_AREA_WIDTH + pack.explosion.x] = 0;
+				if(pack.explosion.y > 0)
+					s->block[pack.explosion.team].block[(pack.explosion.y - 1)*BLOCKLOGIC_AREA_WIDTH + pack.explosion.x] = 0;
+				
+				blocklogic_separate_all_towers();
+				blocklogic_copy_for_render();
+				
+				for(i = 0; i < 3; i++) {
+					d_particle_emitter_move(s->explosion[i], pack.explosion.x*24, pack.explosion.y*24);
+					d_particle_pulse(s->explosion[i]);
+				}
+				sfx_play(SFX_EXPLOSION);
+				
+				break;
+			
 			case PACKET_TYPE_BLOOD:
 				d_particle_emitter_move(s->player[pack.blood.player].blood, pack.blood.x, pack.blood.y);
 				d_particle_pulse(s->player[pack.blood.player].blood);
+				sfx_play(SFX_SPLATTER);
 				break;
 
 			case PACKET_TYPE_TIMER:

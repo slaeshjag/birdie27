@@ -136,6 +136,7 @@ static int _separate_towers(int area, uint8_t * separated_field) {
 	uint8_t *tempfield = malloc(BLOCKLOGIC_AREA_WIDTH*BLOCKLOGIC_AREA_HEIGHT);
 	
 	do {
+		collapsed = false;
 		memcpy(tempfield, s->block[area].block, BLOCKLOGIC_AREA_HEIGHT*BLOCKLOGIC_AREA_WIDTH);
 		
 		y = BLOCKLOGIC_AREA_HEIGHT - 1;
@@ -168,7 +169,7 @@ static int _separate_towers(int area, uint8_t * separated_field) {
 					stable_y = y - 1;
 				} else if(tempfield[y*BLOCKLOGIC_AREA_WIDTH + x] != 0) {
 					s->block[area].block[stable_y*BLOCKLOGIC_AREA_WIDTH + x] = tempfield[y*BLOCKLOGIC_AREA_WIDTH + x];
-					s->block[area].block[stable_y*BLOCKLOGIC_AREA_WIDTH + x] = 0x0;
+					s->block[area].block[y*BLOCKLOGIC_AREA_WIDTH + x] = 0x0;
 					stable_y--;
 					collapsed = true;
 				}

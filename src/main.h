@@ -3,6 +3,7 @@
 
 #include <stdbool.h>
 #include <darnit/darnit.h>
+#include "sfx.h"
 
 #include "movable.h"
 #include "player.h"
@@ -73,6 +74,8 @@ struct GameStateStruct {
 
 	struct TMRenderHackContext *tmrender[16];
 	
+	DARNIT_PARTICLE *explosion[3];
+	
 	uint8_t tower[16][BLOCKLOGIC_AREA_HEIGHT*BLOCKLOGIC_AREA_WIDTH];
 	int towers[2];
 	struct {
@@ -80,7 +83,7 @@ struct GameStateStruct {
 		int y;
 	} center_of_gravity[16];
 	
-//	struct SoundeffectStruct sfx;
+	SfxStruct sfx;
 	struct {
 				int x;
 				int y;

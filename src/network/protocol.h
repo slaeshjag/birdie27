@@ -17,6 +17,7 @@ enum PacketType {
 	PACKET_TYPE_KEYPRESS,
 	PACKET_TYPE_BLOCK_PLACE,
 	PACKET_TYPE_BLOOD,
+	PACKET_TYPE_EXPLOSION,
 	PACKET_TYPE_TIMER,
 	PACKET_TYPE_EXIT,
 };
@@ -65,6 +66,15 @@ struct PacketBlood {
 	uint32_t y;
 };
 
+typedef struct PacketExplosion PacketExplosion;
+struct PacketExplosion {
+	uint16_t type;
+	uint16_t size;
+	
+	uint32_t team;
+	uint32_t x;
+	uint32_t y;
+};
 
 typedef struct PacketSound PacketSound;
 struct PacketSound {
@@ -122,6 +132,7 @@ union Packet {
 	PacketKeypress keypress;
 	PacketExit exit;
 	PacketBlockPlace block_place;
+	PacketExplosion explosion;
 	PacketBlood blood;
 	PacketTimer timer;
 };
