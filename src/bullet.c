@@ -16,7 +16,10 @@ struct BulletParams {
 
 
 static struct BulletParams bullet_params[] = {
-	{ .actual_size = 8, .direction = 0, .speed = 10, .tile = 0 },
+	{ .actual_size = 4, .direction = 1, .speed = 5, .tile = 0 },
+	{ .actual_size = 9, .direction = 1, .speed = 5, .tile = 1 },
+	{ .actual_size = 4, .direction = 0, .speed = 5, .tile = 2 },
+	{ .actual_size = 9, .direction = 0, .speed = 5, .tile = 3 },
 };
 
 
@@ -40,6 +43,8 @@ void bullet_update(int x, int y, int id) {
 	for (i = 0; i < s->bullet.bullets; i++)
 		if (s->bullet.bullet[i].id == id)
 			break;
+	if (i == s->bullet.bullets)
+		return;
 	s->bullet.bullet[i].x = x;
 	s->bullet.bullet[i].y = y;
 }
@@ -162,6 +167,9 @@ int bullet_loop() {
 			else
 				tx = s->bullet.bullet[i].x / 24;
 			tx--;
+			fprintf(stderr, "%i %i\n", tx, ty);
+			if ((x == 15 || x == 17) && y >= 17)
+				boom = 1; // Wall
 			if (tx >= 16) {
 				area = 1;
 				tx -= 18;
@@ -182,4 +190,5 @@ int bullet_loop() {
 			i--;
 		}
 	}
+	return 0;
 }

@@ -9,6 +9,7 @@
 #include "player.h"
 #include "bullet.h"
 #include "blocklogic.h"
+#include "turret.h"
 #define DISPLAY_WIDTH 800
 #define DISPLAY_HEIGHT 600
 #define PORT 1339
@@ -71,6 +72,7 @@ struct GameStateStruct {
 	struct PlayerTimer	timer;
 	struct BlockLogicBlock	block[2]; // One per team for now
 	struct BulletList	bullet;
+	struct Turret		turret;
 
 	struct TMRenderHackContext *tmrender[16];
 	

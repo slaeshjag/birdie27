@@ -11,6 +11,8 @@ Block block_property[BLOCK_TYPE_BLOCKS] = {
 	[BLOCK_TYPE_LADDER] = {.mass = 100, .spawn_chance = 500, .tile = 22, COLLISION_TOP},
 	[BLOCK_TYPE_BULLETPROOF] = {.mass = 500, .spawn_chance = 50, .tile = 23, COLLISION_ALL},
 	[BLOCK_TYPE_DYNAMITE] = {.mass = 100, .spawn_chance = 50, .tile = 105, COLLISION_NONE},
+	[BLOCK_TYPE_TURRET] = {.mass = 300, .spawn_chance = 30, .tile = 24, COLLISION_ALL},
+	[BLOCK_TYPE_CANNON] = {.mass = 500, .spawn_chance = 20, .tile = 25, COLLISION_ALL},
 };
 
 int block_spawn() {

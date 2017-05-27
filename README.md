@@ -1,8 +1,5 @@
 # Ikikaeru
-by h4xxel & slaeshjag of //actung fulkod
-
-Back to the roots. Pick up and throw root vegetables at your foes, Super Mario
-Bros 2 style. Networked multiplayer game for up to four players.
+by h4xxel & slaeshjag of //achtung fulkod
 
 ## Story
 Multiplayer block-stacking game. Build your tower higher than the opposing team to win.

@@ -147,6 +147,10 @@ void server_handle_client(ClientList *cli) {
 				response.bullet_update.x = pack.bullet_update.x;
 				response.bullet_update.y = pack.bullet_update.y;
 				response.bullet_update.id = pack.bullet_update.id;
+				
+				for(tmp = client; tmp; tmp = tmp->next) {
+					protocol_send_packet(tmp->sock, &response);
+				}
 				break;
 			case PACKET_TYPE_EXIT:
 				response.type = PACKET_TYPE_EXIT;

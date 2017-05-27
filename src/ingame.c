@@ -14,6 +14,7 @@
 #include "sfx.h"
 #include "util.h"
 #include "bullet.h"
+#include "turret.h"
 
 InGameKeyStateEntry ingame_keystate[PLAYER_CAP];
 int ingame_timer_package_send(uint8_t advantage, uint32_t team1, uint32_t team2);
@@ -61,7 +62,6 @@ void _win(int team) {
 
 
 void ingame_loop() {
-	static int blah = 0;
 	int i, team1t, team2t;
 	
 	d_render_clearcolor_set(0x88, 0xf2, 0xff);
@@ -87,8 +87,7 @@ void ingame_loop() {
 			s->timer.team2 += d_last_frame_time();
 		ingame_timer_package_send(s->timer.advantage, s->timer.team1, s->timer.team2);
 		bullet_loop();
-		if (!((blah++) & 0x3F))
-			bullet_shoot(10, 20, 0), blah = 1;
+		turret_loop();
 		
 		if(s->timer.team1/1000 == TIMER_COUNTDOWN_WIN) {
 			_win(0);
@@ -236,6 +235,11 @@ void ingame_network_handler() {
 					case BLOCK_TYPE_BUS:
 						sfx_play(SFX_CAR);
 						break;
+					case BLOCK_TYPE_TURRET:
+					case BLOCK_TYPE_CANNON:
+						if (s->is_host) {
+							turret_place(pack.block_place.block, pack.block_place.x, pack.block_place.y, pack.block_place.team);
+						}
 				}
 				
 				s->block[pack.block_place.team].block[pack.block_place.y*BLOCKLOGIC_AREA_WIDTH + pack.block_place.x] = pack.block_place.block;

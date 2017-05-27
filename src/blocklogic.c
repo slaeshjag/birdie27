@@ -5,6 +5,7 @@
 #include "main.h"
 #include "blocklogic.h"
 #include "block.h"
+#include "turret.h"
 
 static int _mark_and_copy(uint8_t *data_in, uint8_t *data_out, int w, int h, int x, int y, uint8_t from, uint8_t to, int *center_of_gravity_x, int *center_of_gravity_y, int *mass_total) {
 	int mass;
@@ -168,7 +169,10 @@ static int _separate_towers(int area, uint8_t * separated_field) {
 				if(tempfield[y*BLOCKLOGIC_AREA_WIDTH + x] == 0xFF) {
 					stable_y = y - 1;
 				} else if(tempfield[y*BLOCKLOGIC_AREA_WIDTH + x] != 0) {
-					s->block[area].block[stable_y*BLOCKLOGIC_AREA_WIDTH + x] = tempfield[y*BLOCKLOGIC_AREA_WIDTH + x];
+					if (tempfield[y*BLOCKLOGIC_AREA_WIDTH + x] == BLOCK_TYPE_CANNON || tempfield[y*BLOCKLOGIC_AREA_WIDTH + x] == BLOCK_TYPE_TURRET) {
+						turret_kill(x, y, area);
+					} else
+						s->block[area].block[stable_y*BLOCKLOGIC_AREA_WIDTH + x] = tempfield[y*BLOCKLOGIC_AREA_WIDTH + x];
 					s->block[area].block[y*BLOCKLOGIC_AREA_WIDTH + x] = 0x0;
 					stable_y--;
 					collapsed = true;
