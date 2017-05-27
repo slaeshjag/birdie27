@@ -1,5 +1,5 @@
 # Ikikaeru
-by h4xxel & slaeshjag of //actung fulkod
+by h4xxel & slaeshjag of //achtung fulkod
 
 Back to the roots. Pick up and throw root vegetables at your foes, Super Mario
 Bros 2 style. Networked multiplayer game for up to four players.
