@@ -3,6 +3,7 @@
 
 #include <stdbool.h>
 #include <darnit/darnit.h>
+#include "sfx.h"
 
 #include "movable.h"
 #include "player.h"
@@ -80,7 +81,7 @@ struct GameStateStruct {
 		int y;
 	} center_of_gravity[16];
 	
-//	struct SoundeffectStruct sfx;
+	SfxStruct sfx;
 	struct {
 				int x;
 				int y;
