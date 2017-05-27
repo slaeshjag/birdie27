@@ -154,6 +154,27 @@ int bullet_loop() {
 		bullet_update_packet(s->bullet.bullet[i].x, s->bullet.bullet[i].y, s->bullet.bullet[i].id);
 		if (s->bullet.bullet[i].x < 0 || s->bullet.bullet[i].x > 900)
 			boom IS VERY YES;
+		{
+			int tx, ty, area;
+			ty = s->bullet.bullet[i].y / 24;
+			if (speed > 0)
+				tx = (s->bullet.bullet[i].x + size) / 24;
+			else
+				tx = s->bullet.bullet[i].x / 24;
+			tx--;
+			if (tx >= 16) {
+				area = 1;
+				tx -= 18;
+			} else
+				area = 0;
+
+			ty--;
+			if (x >= 0 && x < BLOCKLOGIC_AREA_WIDTH && y >= 0 && y < BLOCKLOGIC_AREA_HEIGHT) {
+				if (s->block[area].block[x * BLOCKLOGIC_AREA_HEIGHT]) {
+					fprintf(stderr, "We hit something!\n");
+				}
+			}
+		}
 
 		if (boom) { // BOOM BOOM BOOM I want to be in my room. I'm very sleepy.
 			bullet_remove_packet(s->bullet.bullet[i].id);
