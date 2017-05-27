@@ -6,12 +6,12 @@ BEGIN
 	BEGIN
 		BLOCK "080904E4"
 		BEGIN
-			VALUE "FileDescription", "Fascister i grönsakslandet"
+			VALUE "FileDescription", "Ikikaeru"
 			VALUE "FileVersion", "1.0"
-			VALUE "InternalName", "Fascister i grönsakslandet"
+			VALUE "InternalName", "Ikikaeru"
 			VALUE "LegalCopyright", "//actung fulkod"
-			VALUE "OriginalFilename", "gronsak.exe"
-			VALUE "ProductName", "Fascister i grönsakslandet"
+			VALUE "OriginalFilename", "ikikaeru.exe"
+			VALUE "ProductName", "Ikikaeru"
 			VALUE "ProductVersion", "1.0"
 		END
 	END
