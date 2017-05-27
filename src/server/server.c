@@ -129,6 +129,17 @@ void server_handle_client(ClientList *cli) {
 					protocol_send_packet(tmp->sock, &response);
 				}
 				break;
+				
+			case PACKET_TYPE_EXIT:
+				response.type = PACKET_TYPE_EXIT;
+				response.size = sizeof(PacketExit);
+				response.exit.team = pack.exit.team;
+				
+				for(tmp = client; tmp; tmp = tmp->next) {
+					protocol_send_packet(tmp->sock, &response);
+				}
+				break;
+				
 			default:
 				fprintf(stderr, "wat %i\n", pack.type);
 				break;
@@ -244,30 +255,6 @@ void server_start() {
 	return;
 }*/
 
-void server_announce_winner(int winning_player) {
-	PacketExit pack;
-	ClientList *tmp;
-	
-	pack.type = PACKET_TYPE_EXIT;
-	pack.size = sizeof(PacketExit);
-	
-	pack.player = winning_player;
-	
-	if(winning_player < 0 || winning_player >= PLAYER_CAP);
-	else {
-		for(tmp = client; tmp; tmp = tmp->next) {
-			if(tmp->id == winning_player) {
-				strcpy(pack.name, tmp->name);
-				goto send_pack;
-			}
-		}
-	}
-	strcpy(pack.name, "No-one");
-	
-	send_pack:
-	for(tmp = client; tmp; tmp = tmp->next)
-		protocol_send_packet(tmp->sock, (void *) &pack);
-}
 
 void server_start_game() {
 	server_state = SERVER_STATE_STARTING;

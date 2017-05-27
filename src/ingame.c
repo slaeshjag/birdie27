@@ -10,6 +10,7 @@
 #include "server/server.h"
 #include "main.h"
 #include "block.h"
+#include "gameover.h"
 #include "sfx.h"
 #include "util.h"
 
@@ -45,6 +46,17 @@ void ingame_init() {
 */
 }
 
+void _win(int team) {
+	Packet pack;
+	
+	pack.type = PACKET_TYPE_EXIT;
+	pack.size = sizeof(PacketExit);
+	
+	pack.exit.team = team;
+	
+	protocol_send_packet(server_sock, &pack);
+}
+
 
 void ingame_loop() {
 	int i, team1t, team2t;
@@ -71,6 +83,12 @@ void ingame_loop() {
 		else if (s->timer.advantage == 2)
 			s->timer.team2 += d_last_frame_time();
 		ingame_timer_package_send(s->timer.advantage, s->timer.team1, s->timer.team2);
+		
+		if(s->timer.team1/1000 == TIMER_COUNTDOWN_WIN) {
+			_win(0);
+		} else if(s->timer.team2/1000 == TIMER_COUNTDOWN_WIN) {
+			_win(1);
+		}
 	}
 	
 //	camera_work();
@@ -255,8 +273,8 @@ void ingame_network_handler() {
 	//			soundeffects_play(pack.sound.sound);
 				break;
 			case PACKET_TYPE_EXIT:
-	//			game_over_set_player(pack.exit.player, pack.exit.name);
-	//			game_state(GAME_STATE_GAME_OVER);
+				game_over_set_team(pack.exit.team);
+				game_state(GAME_STATE_GAME_OVER);
 				break;
 		}
 	}
