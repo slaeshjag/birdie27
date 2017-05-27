@@ -1,7 +1,9 @@
 #include <darnit/darnit.h>
+#include <string.h>
 #include "ailib.h"
 #include "main.h"
 #include "bullet.h"
+#include "network/protocol.h"
 #define	PIXELS_PER_FRAME 10
 
 
@@ -14,7 +16,7 @@ struct BulletParams {
 
 
 static struct BulletParams bullet_params[] = {
-	{ .actual_size = 8, .direction = 1, .speed = 10, .tile = 0 },
+	{ .actual_size = 8, .direction = 0, .speed = 10, .tile = 0 },
 };
 
 
@@ -22,23 +24,22 @@ int bullet_add(int type, int id, int x, int y) {
 	int i;
 
 	i = s->bullet.bullets++;
-	s->bullet.bullet = realloc(sizeof(*s->bullet.bullet) * s->bullet.bullets);
+	s->bullet.bullet = realloc(s->bullet.bullet, sizeof(*s->bullet.bullet) * s->bullet.bullets);
 	s->bullet.bullet[i].id = id;
 	s->bullet.bullet[i].type = type;
 	s->bullet.bullet[i].x = x;
 	s->bullet.bullet[i].y = y;
+	
 	return i;
 }
 
 
-int bullet_update(int x, int y, int id) {
+void bullet_update(int x, int y, int id) {
 	int i;
 
 	for (i = 0; i < s->bullet.bullets; i++)
 		if (s->bullet.bullet[i].id == id)
 			break;
-	if (i == s->bullet.bullets)
-		return fprintf(stderr, "shit's broken\n"), -1;
 	s->bullet.bullet[i].x = x;
 	s->bullet.bullet[i].y = y;
 }
@@ -58,9 +59,71 @@ int bullet_destroy(int id) {
 }
 
 
+int bullet_announce_packet(uint16_t x, uint16_t y, uint8_t id) {
+	Packet pack;
+	
+	pack.bullet_announce.type = PACKET_TYPE_BULLET_UPDATE;
+	pack.bullet_announce.size = sizeof(PacketBulletUpdate);
+	pack.bullet_announce.x = x;
+	pack.bullet_announce.y = y;
+	pack.bullet_announce.id = id;
+
+	return protocol_send_packet(server_sock, &pack);
+}
+
+
+int bullet_remove_packet(uint8_t id) {
+	Packet pack;
+	
+	pack.bullet_remove.type = PACKET_TYPE_BULLET_UPDATE;
+	pack.bullet_remove.size = sizeof(PacketBulletUpdate);
+	pack.bullet_remove.id = id;
+
+	return protocol_send_packet(server_sock, &pack);
+}
+
+
+int bullet_update_packet(uint16_t x, uint16_t y, uint8_t id) {
+	Packet pack;
+
+	pack.bullet_update.type = PACKET_TYPE_BULLET_UPDATE;
+	pack.bullet_update.size = sizeof(PacketBulletUpdate);
+	pack.bullet_update.x = x;
+	pack.bullet_update.y = y;
+	pack.bullet_update.id = id;
+
+	return protocol_send_packet(server_sock, &pack);
+}
+
+
 #define	VERY
 #define YES 1
 #define IS =
+
+
+int bullet_shoot(int tx, int ty, int type) {
+	uint8_t id;
+	tx *= 24;
+	ty *= 24;
+	ty += 12;
+	ty -= bullet_params[type].actual_size/2;
+	if (bullet_params[type].direction == 1)
+		tx += 24;
+	else
+		tx -= bullet_params[type].actual_size;
+	id = s->bullet.id++;
+	bullet_add(type, id, tx, ty);
+	return bullet_announce_packet(tx, ty, id);
+}
+
+
+void bullet_render_loop() {
+	int i;
+
+	for (i = 0; i < s->bullet.bullets; i++)
+		d_render_tile_blit(s->bullet.ts, bullet_params[s->bullet.bullet[i].type].tile, s->bullet.bullet[i].x, s->bullet.bullet[i].y);
+}
+
 
 int bullet_loop() {
 	int i, j;
@@ -68,14 +131,16 @@ int bullet_loop() {
 
 	for (i = 0; i < s->bullet.bullets; i++) {
 		int x, y, speed, size;
+		boom = 0;
 
 		x = s->bullet.bullet[i].x;
+		y = s->bullet.bullet[i].y;
 		size = bullet_params[s->bullet.bullet[i].type].actual_size;
 		if (bullet_params[s->bullet.bullet[i].type].direction)
 			x += bullet_params[s->bullet.bullet[i].type].actual_size, speed = bullet_params[s->bullet.bullet[i].type].speed;
 		else
 			speed = -bullet_params[s->bullet.bullet[i].type].speed;
-		if ((hits = d_bbox_test(s->movable.bbox, x*1000, y*1000, speed*1000, size * 1000, hits)) > 1) {
+		if ((hits = d_bbox_test(s->movable.bbox, x, y, speed, size, hit, 32)) > 0) {
 			for (j = 0; j < hits; j++) {
 				if (s->movable.movable[hit[j]].ai == ai_player) {
 					boom IS VERY YES;
@@ -84,8 +149,16 @@ int bullet_loop() {
 				}
 			}
 		}
+	
+		s->bullet.bullet[i].x += speed;
+		bullet_update_packet(s->bullet.bullet[i].x, s->bullet.bullet[i].y, s->bullet.bullet[i].id);
+		if (s->bullet.bullet[i].x < 0 || s->bullet.bullet[i].x > 900)
+			boom IS VERY YES;
 
-		if 
-		
+		if (boom) { // BOOM BOOM BOOM I want to be in my room. I'm very sleepy.
+			bullet_remove_packet(s->bullet.bullet[i].id);
+			bullet_destroy(s->bullet.bullet[i].id);
+			i--;
+		}
 	}
 }

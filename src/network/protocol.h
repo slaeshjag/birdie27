@@ -19,6 +19,9 @@ enum PacketType {
 	PACKET_TYPE_BLOOD,
 	PACKET_TYPE_EXPLOSION,
 	PACKET_TYPE_TIMER,
+	PACKET_TYPE_BULLET_ANNOUNCE,
+	PACKET_TYPE_BULLET_UPDATE,
+	PACKET_TYPE_BULLET_REMOVE,
 	PACKET_TYPE_EXIT,
 };
 
@@ -97,6 +100,38 @@ struct PacketBlockPlace {
 };
 
 
+typedef struct PacketBulletAnnounce PacketBulletAnnounce;
+struct PacketBulletAnnounce {
+	uint16_t type;
+	uint16_t size;
+
+	uint8_t bullet_type;
+	uint16_t x;
+	uint16_t y;
+	uint8_t id;
+};
+
+
+typedef struct PacketBulletRemove PacketBulletRemove;
+struct PacketBulletRemove {
+	uint16_t type;
+	uint16_t size;
+
+	uint8_t id;
+};
+
+
+typedef struct PacketBulletUpdate PacketBulletUpdate;
+struct PacketBulletUpdate {
+	uint16_t type;
+	uint16_t size;
+
+	uint16_t x;
+	uint16_t y;
+	uint8_t id;
+};
+
+
 typedef struct PacketTimer PacketTimer;
 struct PacketTimer {
 	uint16_t type;
@@ -135,6 +170,9 @@ union Packet {
 	PacketExplosion explosion;
 	PacketBlood blood;
 	PacketTimer timer;
+	PacketBulletUpdate bullet_update;
+	PacketBulletAnnounce bullet_announce;
+	PacketBulletRemove bullet_remove;
 };
 
 int protocol_send_packet(int sock, Packet *pack);

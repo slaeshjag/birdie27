@@ -129,6 +129,38 @@ void server_handle_client(ClientList *cli) {
 					protocol_send_packet(tmp->sock, &response);
 				}
 				break;
+			case PACKET_TYPE_BULLET_ANNOUNCE:
+				response.type = PACKET_TYPE_BULLET_ANNOUNCE;
+				response.size = sizeof(PacketBulletAnnounce);
+				response.bullet_announce.x = pack.bullet_announce.x;
+				response.bullet_announce.y = pack.bullet_announce.y;
+				response.bullet_announce.id = pack.bullet_announce.id;
+				response.bullet_announce.bullet_type = pack.bullet_announce.bullet_type;
+				
+				for(tmp = client; tmp; tmp = tmp->next) {
+					protocol_send_packet(tmp->sock, &response);
+				}
+				break;
+			case PACKET_TYPE_BULLET_UPDATE:
+				response.type = PACKET_TYPE_BULLET_UPDATE;
+				response.size = sizeof(PacketBulletUpdate);
+				response.bullet_update.x = pack.bullet_update.x;
+				response.bullet_update.y = pack.bullet_update.y;
+				response.bullet_update.id = pack.bullet_update.id;
+				
+				for(tmp = client; tmp; tmp = tmp->next) {
+					protocol_send_packet(tmp->sock, &response);
+				}
+				break;
+			case PACKET_TYPE_BULLET_REMOVE:
+				response.type = PACKET_TYPE_BULLET_REMOVE;
+				response.size = sizeof(PacketBulletRemove);
+				response.bullet_remove.id = pack.bullet_remove.id;
+				
+				for(tmp = client; tmp; tmp = tmp->next) {
+					protocol_send_packet(tmp->sock, &response);
+				}
+				break;
 			default:
 				fprintf(stderr, "wat %i\n", pack.type);
 				break;

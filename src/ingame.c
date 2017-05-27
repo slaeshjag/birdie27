@@ -12,6 +12,7 @@
 #include "block.h"
 #include "sfx.h"
 #include "util.h"
+#include "bullet.h"
 
 InGameKeyStateEntry ingame_keystate[PLAYER_CAP];
 int ingame_timer_package_send(uint8_t advantage, uint32_t team1, uint32_t team2);
@@ -31,6 +32,7 @@ void ingame_init() {
 //	bulletInit();
 	movableLoad();
 	s->_7seg = d_render_tilesheet_load("res/7seg.png", 24, 32, DARNIT_PFORMAT_RGB5A1);
+	s->bullet.ts = d_render_tilesheet_load("res/bullets.png", 24, 24, DARNIT_PFORMAT_RGB5A1);
 //	healthbar_init();
 //	soundeffects_init();
 
@@ -47,6 +49,7 @@ void ingame_init() {
 
 
 void ingame_loop() {
+	static int blah = 0;
 	int i, team1t, team2t;
 	
 	d_render_clearcolor_set(0x88, 0xf2, 0xff);
@@ -71,6 +74,9 @@ void ingame_loop() {
 		else if (s->timer.advantage == 2)
 			s->timer.team2 += d_last_frame_time();
 		ingame_timer_package_send(s->timer.advantage, s->timer.team1, s->timer.team2);
+		bullet_loop();
+		if (!((blah++) & 0x3F))
+			bullet_shoot(10, 20, 0), blah = 1;
 	}
 	
 //	camera_work();
@@ -86,6 +92,8 @@ void ingame_loop() {
 	}
 	for (i = 0; i < 16; i++)
 		tm_renderhack_context_render(s->tmrender[i], 0.f);
+	
+	bullet_render_loop();
 	
 	for (i = 0; i < s->active_level->layers; i++) {
 		movableLoopRender(i);
@@ -251,6 +259,19 @@ void ingame_network_handler() {
 				s->timer.team2 = pack.timer.team2;
 				break;
 			
+			case PACKET_TYPE_BULLET_ANNOUNCE:
+				if (s->is_host)
+					bullet_add(pack.bullet_announce.bullet_type, pack.bullet_announce.id, pack.bullet_announce.x, pack.bullet_announce.y);
+				break;
+			case PACKET_TYPE_BULLET_UPDATE:
+
+				if (s->is_host)
+					bullet_update(pack.bullet_update.x, pack.bullet_update.y, pack.bullet_update.id);
+				break;
+			case PACKET_TYPE_BULLET_REMOVE:
+				if (s->is_host)
+					bullet_destroy(pack.bullet_remove.id);
+				break;
 			case PACKET_TYPE_SOUND:
 	//			soundeffects_play(pack.sound.sound);
 				break;
