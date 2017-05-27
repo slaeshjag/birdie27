@@ -10,6 +10,6 @@ void sfx_init() {
 
 
 void sfx_play(SfxSound sound) {
-	d_sound_play(s->sfx.sound[sound], -1, 70, 70, 0);
+	d_sound_play(s->sfx.sound[sound], -1, 100, 100, 0);
 	return;
 }

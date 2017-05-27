@@ -10,6 +10,7 @@
 #include "server/server.h"
 #include "main.h"
 #include "block.h"
+#include "gameover.h"
 #include "sfx.h"
 #include "util.h"
 #include "bullet.h"
@@ -47,6 +48,17 @@ void ingame_init() {
 */
 }
 
+void _win(int team) {
+	Packet pack;
+	
+	pack.type = PACKET_TYPE_EXIT;
+	pack.size = sizeof(PacketExit);
+	
+	pack.exit.team = team;
+	
+	protocol_send_packet(server_sock, &pack);
+}
+
 
 void ingame_loop() {
 	static int blah = 0;
@@ -77,6 +89,12 @@ void ingame_loop() {
 		bullet_loop();
 		if (!((blah++) & 0x3F))
 			bullet_shoot(10, 20, 0), blah = 1;
+		
+		if(s->timer.team1/1000 == TIMER_COUNTDOWN_WIN) {
+			_win(0);
+		} else if(s->timer.team2/1000 == TIMER_COUNTDOWN_WIN) {
+			_win(1);
+		}
 	}
 	
 //	camera_work();
@@ -276,8 +294,8 @@ void ingame_network_handler() {
 	//			soundeffects_play(pack.sound.sound);
 				break;
 			case PACKET_TYPE_EXIT:
-	//			game_over_set_player(pack.exit.player, pack.exit.name);
-	//			game_state(GAME_STATE_GAME_OVER);
+				game_over_set_team(pack.exit.team);
+				game_state(GAME_STATE_GAME_OVER);
 				break;
 		}
 	}

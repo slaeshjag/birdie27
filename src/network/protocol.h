@@ -148,8 +148,7 @@ struct PacketExit {
 	uint16_t type;
 	uint16_t size;
 	
-	uint32_t player;
-	char name[NAME_LEN_MAX];
+	uint32_t team;
 };
 
 typedef union Packet Packet;
