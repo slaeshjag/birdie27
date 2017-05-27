@@ -170,7 +170,7 @@ int bullet_loop() {
 
 			ty--;
 			if (x >= 0 && x < BLOCKLOGIC_AREA_WIDTH && y >= 0 && y < BLOCKLOGIC_AREA_HEIGHT) {
-				if (s->block[area].block[x * BLOCKLOGIC_AREA_HEIGHT]) {
+				if (s->block[area].block[y * BLOCKLOGIC_AREA_HEIGHT + x]) {
 					fprintf(stderr, "We hit something!\n");
 				}
 			}
