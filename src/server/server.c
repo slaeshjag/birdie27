@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <stdbool.h>
 #include <darnit/darnit.h>
+#include "../block.h"
 #include "../main.h"
 #include "../network/network.h"
 #include "../network/protocol.h"
@@ -91,6 +92,18 @@ void server_handle_client(ClientList *cli) {
 				
 				for(tmp = client; tmp; tmp = tmp->next) {
 					protocol_send_packet(tmp->sock, &response);
+				}
+				
+				if(pack.block_place.block == BLOCK_TYPE_DYNAMITE) {
+					response.type = PACKET_TYPE_EXPLOSION;
+					response.size = sizeof(PacketExplosion);
+					response.explosion.x = pack.block_place.x;
+					response.explosion.y = pack.block_place.y;
+					response.explosion.team = pack.block_place.team;
+					
+					for(tmp = client; tmp; tmp = tmp->next) {
+						protocol_send_packet(tmp->sock, &response);
+					}
 				}
 				break;
 			

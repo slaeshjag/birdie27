@@ -77,6 +77,7 @@ void gameroom_init() {
 void gameroom_network_handler() {
 	Packet pack;
 	void *tmp;
+	int i;
 	
 	if(!network_poll_tcp(server_sock))
 		return;
@@ -114,6 +115,27 @@ void gameroom_network_handler() {
 				d_particle_emitter_angle(s->player[pack.join.id].blood, 0, 3600);
 				d_particle_point_size(s->player[pack.join.id].blood, 10);
 				d_particle_emitter_gravity(s->player[pack.join.id].blood, 0, 100);
+				
+				for(i = 0; i < 3; i++) {
+					s->explosion[i] = d_particle_new(1000, DARNIT_PARTICLE_TYPE_POINT);
+					d_particle_color_start(s->explosion[i], 128, 128, 0, 255);
+					d_particle_color_target(s->explosion[i], 255, 255, 0, 0);
+					d_particle_life(s->explosion[i], 800 + 100*i);
+					d_particle_mode(s->explosion[i], DARNIT_PARTICLE_MODE_PULSAR);
+					d_particle_emitter_velocity(s->explosion[i], 80 + 10*i, 1000 + 200*i);
+					d_particle_emitter_angle(s->explosion[i], 0, 3600);
+					d_particle_point_size(s->explosion[i], 40 - i*10);
+					d_particle_emitter_gravity(s->explosion[i], 0, 100);
+				}
+				
+				d_particle_color_start(s->explosion[0], 128, 0, 0, 255);
+				d_particle_color_target(s->explosion[0], 255, 0, 0, 0);
+				
+				d_particle_color_start(s->explosion[1], 128, 128, 0, 255);
+				d_particle_color_target(s->explosion[1], 160, 160, 0, 0);
+				
+				d_particle_color_start(s->explosion[2], 128, 128, 0, 255);
+				d_particle_color_target(s->explosion[2], 255, 255, 0, 0);
 				
 				s->player[pack.join.id].active = true;
 			}

@@ -9,7 +9,7 @@ Block block_property[BLOCK_TYPE_BLOCKS] = {
 	[BLOCK_TYPE_CRATE] = {.mass = 500, .spawn_chance = 100, .tile = 47, COLLISION_ALL},
 	
 	[BLOCK_TYPE_LADDER] = {.mass = 100, .spawn_chance = 500, .tile = 22, COLLISION_TOP},
-	[BLOCK_TYPE_DYNAMITE] = {.mass = 100, .spawn_chance = 50, .tile = 105, COLLISION_NONE},
+	[BLOCK_TYPE_DYNAMITE] = {.mass = 100, .spawn_chance = 500, .tile = 105, COLLISION_NONE},
 };
 
 int block_spawn() {

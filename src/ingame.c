@@ -95,6 +95,9 @@ void ingame_loop() {
 		}
 	}
 	
+	for(i = 0; i < 3; i++)
+		d_particle_draw(s->explosion[i]);
+	
 	d_render_offset(0, 0);
 	ingame_timer_blit(TIMER_COUNTDOWN_WIN - s->timer.team1/1000, s->timer.advantage == 1 ? 1 : 0, 0);
 	ingame_timer_blit(TIMER_COUNTDOWN_WIN - s->timer.team2/1000, s->timer.advantage == 2 ? 3 : 2, 704);
@@ -201,6 +204,27 @@ void ingame_network_handler() {
 				s->block[pack.block_place.team].block[pack.block_place.y*BLOCKLOGIC_AREA_WIDTH + pack.block_place.x] = pack.block_place.block;
 				blocklogic_separate_all_towers();
 				blocklogic_copy_for_render();
+				break;
+			
+			case PACKET_TYPE_EXPLOSION:
+				s->block[pack.explosion.team].block[pack.explosion.y*BLOCKLOGIC_AREA_WIDTH + pack.explosion.x] = 0;
+				if(pack.explosion.x < BLOCKLOGIC_AREA_WIDTH - 1)
+					s->block[pack.explosion.team].block[pack.explosion.y*BLOCKLOGIC_AREA_WIDTH + pack.explosion.x + 1] = 0;
+				if(pack.explosion.x > 0)
+					s->block[pack.explosion.team].block[pack.explosion.y*BLOCKLOGIC_AREA_WIDTH + pack.explosion.x - 1] = 0;
+				if(pack.explosion.y < BLOCKLOGIC_AREA_HEIGHT - 1)
+					s->block[pack.explosion.team].block[(pack.explosion.y + 1)*BLOCKLOGIC_AREA_WIDTH + pack.explosion.x] = 0;
+				if(pack.explosion.y > 0)
+					s->block[pack.explosion.team].block[(pack.explosion.y - 1)*BLOCKLOGIC_AREA_WIDTH + pack.explosion.x] = 0;
+				
+				blocklogic_separate_all_towers();
+				blocklogic_copy_for_render();
+				
+				for(i = 0; i < 3; i++) {
+					d_particle_emitter_move(s->explosion[i], pack.explosion.x*24, pack.explosion.y*24);
+					d_particle_pulse(s->explosion[i]);
+				}
+				
 				break;
 			
 			case PACKET_TYPE_BLOOD:

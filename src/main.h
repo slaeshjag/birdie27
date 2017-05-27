@@ -71,6 +71,8 @@ struct GameStateStruct {
 
 	struct TMRenderHackContext *tmrender[16];
 	
+	DARNIT_PARTICLE *explosion[3];
+	
 	uint8_t tower[16][BLOCKLOGIC_AREA_HEIGHT*BLOCKLOGIC_AREA_WIDTH];
 	int towers[2];
 	struct {

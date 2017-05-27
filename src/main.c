@@ -25,7 +25,7 @@ int server_sock;
 
 char *team_name[] = {
 	"Red",
-	"Blue",
+	"Green",
 };
 
 void (*state_render[GAME_STATES])()={
