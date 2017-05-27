@@ -13,7 +13,7 @@
 #define DISPLAY_HEIGHT 600
 #define PORT 1339
 
-#define GAME_TITLE "birdie27"
+#define GAME_TITLE "Ikikaeru"
 
 #define NAME_LEN_MAX 64
 #define	PLAYER_CAP 32

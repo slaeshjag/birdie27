@@ -2,7 +2,7 @@
 MAKEFLAGS	+=	--no-print-directory
 
 #Binaries
-BINFILE		=	birdie27
+BINFILE		=	ikikaeru
 
 # Paths
 MODULESDIR      = $(TOPDIR)/submodules
