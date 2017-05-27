@@ -51,7 +51,11 @@ void menu_init() {
 	muil_vbox_add_child(menu_help.vbox, menu_help.label.title = muil_widget_create_label(gfx.font.large, "How to play"), 0);
 	muil_vbox_add_child(menu_help.vbox, muil_widget_create_spacer_size(0, 10), 0);
 	muil_vbox_add_child(menu_help.vbox, menu_help.label.title = muil_widget_create_label(gfx.font.small, 
-		"<write something clever here>"
+		"Multiplayer block-stacking game. Build your tower higher than the opposing team to win.\n"
+		"The only way to get new building blocks is to spawn with them, so suicide is a feature!\n"
+		"When you have placed your block, kill yourself to respawn with a new one!\n\n"
+		"Some blocks have special features, such as the ladder, the dynamite and the turrets.\n"
+		"The different blocks also have different weights and different resistance to various kinds of bullets.\n"
 	), 0);
 	muil_vbox_add_child(menu_help.vbox, muil_widget_create_spacer(), 1);
 	muil_vbox_add_child(menu_help.vbox, menu_help.label.title = muil_widget_create_label(gfx.font.small, "2017 party hack for Birdie Gamedev compo\nh4xxel (http://h4xxel.org) & slaesjag (http://rdw.se) of //actung fulkod"), 0);
