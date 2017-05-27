@@ -52,14 +52,13 @@ int _get_player_id(MOVABLE_ENTRY *self) {
 static int _player_direction(MOVABLE_ENTRY *self) {
 	int player_id;
 
-	return 0;
 	player_id = _get_player_id(self);
 	if (player_id < 0 || player_id >= PLAYER_CAP)
 		return 0;
-	if (s->player[player_id].pulling > d_time_get())
-		return (!s->player[player_id].last_walk_direction) + 4;
+	//if (s->player[player_id].holding->direction)
+	//	return (!s->player[player_id].last_walk_direction) + 4;
 	
-	return ((!s->player[player_id].last_walk_direction) | ((self->x_velocity != 0) << 1)) + (s->player[player_id].holding ? 6 : 0);
+	return ((!s->player[player_id].last_walk_direction) | ((self->x_velocity != 0) << 1)) + (s->player[player_id].holding->direction ? 4 : 0);
 }
 
 
@@ -199,7 +198,7 @@ void ai_player(void *dummy, void *entry, MOVABLE_MSG msg) {
 					}
 				}
 			}
-
+			
 			if (ingame_keystate[player_id].action && !self->y_velocity) {
 				int x, y, area, tx, ty, tmx, tmy;
 				area = self->x < 432000?0:1;
@@ -242,7 +241,6 @@ void ai_player(void *dummy, void *entry, MOVABLE_MSG msg) {
 			    movableTileCollision(self, 0, 2) & COLLISION_KILL)
 				_die(self, player_id);
 				
-
 			self->direction = _player_direction(self);
 			break;
 		case MOVABLE_MSG_DESTROY:
