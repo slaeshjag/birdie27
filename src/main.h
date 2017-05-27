@@ -6,6 +6,7 @@
 
 #include "movable.h"
 #include "player.h"
+#include "bullet.h"
 #include "blocklogic.h"
 #define DISPLAY_WIDTH 800
 #define DISPLAY_HEIGHT 600
@@ -68,6 +69,7 @@ struct GameStateStruct {
 	struct PlayerState	player[PLAYER_CAP];
 	struct PlayerTimer	timer;
 	struct BlockLogicBlock	block[2]; // One per team for now
+	struct BulletList	bullet;
 
 	struct TMRenderHackContext *tmrender[16];
 	

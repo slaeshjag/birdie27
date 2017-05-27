@@ -271,3 +271,10 @@ void *ailib_get(const char *str) {
 
 	return NULL;
 }
+
+
+void ailib_torpedo(int movable) {
+	int player_id;
+	player_id = _get_player_id(&s->movable.movable[movable]);
+	_die(&s->movable.movable[movable], player_id);
+}
