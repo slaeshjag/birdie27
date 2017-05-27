@@ -178,10 +178,10 @@ void ai_player(void *dummy, void *entry, MOVABLE_MSG msg) {
 			if (player_id < 0)
 				return;
 			if (ingame_keystate[player_id].left) {
-				self->x_velocity = -400;
+				self->x_velocity = -300 + block_property[s->player[player_id].holding->direction].mass/2;
 				s->player[player_id].last_walk_direction = 0;
 			} else if (ingame_keystate[player_id].right) {
-				self->x_velocity = 400;
+				self->x_velocity = 300 - block_property[s->player[player_id].holding->direction].mass/2;
 				s->player[player_id].last_walk_direction = 1;
 			} else {
 				self->x_velocity = 0;
